@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:08:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 16:55:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:36:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void Contact::setDarkestSecret(const std::string &darkestSecret) { _darkestSecre
 
 void Contact::printDetails(void) const
 {
+	std::cout << std::endl;
 	std::cout << "First Name: " << this->getFirstName() << std::endl;
 	std::cout << "Last Name: " << this->getLastName() << std::endl;
 	std::cout << "Nickname: " << this->getNickName() << std::endl;
 	std::cout << "Phone Number: " << this->getPhoneNumber() << std::endl;
 	std::cout << "Darkest Secret: " << this->getDarkestSecret() << std::endl;
+	std::cout << std::endl;
 }

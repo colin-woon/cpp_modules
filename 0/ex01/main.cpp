@@ -6,18 +6,20 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 20:20:43 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:40:39 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.class.hpp"
 #include "PhoneBook.class.hpp"
 #include <iomanip>
+#include <cstdlib>
 
-void searchContact(PhoneBook &phoneBook);
 void addNewContact(PhoneBook &phoneBook);
+void searchContact(PhoneBook &phoneBook);
 void viewPhoneBook(PhoneBook &phoneBook);
 std::string truncateString(std::string str);
+void searchContactByIndex(PhoneBook &phoneBook);
 
 int main(void)
 {
@@ -88,6 +90,8 @@ void searchContact(PhoneBook &phoneBook)
 		return;
 	}
 	viewPhoneBook(phoneBook);
+	std::cout << "Enter the index of the contact you want to view: (Enter 0 to go back)" << std::endl;
+	searchContactByIndex(phoneBook);
 }
 
 void viewPhoneBook(PhoneBook &phoneBook)
@@ -114,4 +118,29 @@ std::string truncateString(std::string str)
 		str.append(".");
 	}
 	return (str);
+}
+
+void searchContactByIndex(PhoneBook &phoneBook)
+{
+	std::string input;
+	int num;
+
+	while (true)
+	{
+		std::cin >> input;
+		if (input == "0")
+		{
+			std::cout << "Going Back..." << std::endl
+					  << std::endl;
+			return;
+		}
+		num = atoi(input.c_str());
+		if (num > 0 && num <= phoneBook.getNbOfContacts())
+		{
+			phoneBook.getContact(num - 1).printDetails();
+			break;
+		}
+		else
+			std::cout << "Invalid index. Please try again." << std::endl;
+	}
 }
