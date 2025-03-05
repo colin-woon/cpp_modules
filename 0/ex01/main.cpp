@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 16:13:42 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 16:32:47 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ int main(void)
 	PhoneBook phoneBook;
 	std::string input;
 
-	std::cout << "Choose a command: " << std::endl;
-	std::cout << "- ADD" << std::endl;
-	std::cout << "- SEARCH" << std::endl;
-	std::cout << "- EXIT" << std::endl;
-
 	while (true)
 	{
+		std::cout << "Choose a command: " << std::endl;
+		std::cout << "- ADD" << std::endl;
+		std::cout << "- SEARCH" << std::endl;
+		std::cout << "- EXIT" << std::endl;
 		std::cin >> input;
 
 		if (input == "EXIT" || std::cin.eof() || std::cin.fail())
@@ -38,7 +37,10 @@ int main(void)
 		else if (input == "SEARCH")
 			searchContact();
 		else if (input == "ADD")
+		{
 			addNewContact(phoneBook);
+			continue;
+		}
 	}
 	return (0);
 }
@@ -46,16 +48,15 @@ int main(void)
 void addNewContact(PhoneBook &phoneBook)
 {
 	std::string input[5];
-
 	const char *inputFields[5] = {"First Name: ",
 								  "Last Name: ",
 								  "Nickname: ",
 								  "Phone Number: ",
 								  "Darkest Secret: "};
 
+	std::cout << "Please enter contact details: " << std::endl;
 	for (int i = 0; i < 5; i++)
 	{
-		std::cout << "Please enter contact details: " << std::endl;
 		std::cout << inputFields[i];
 		while (true)
 		{
