@@ -6,14 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 16:56:30 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 19:04:33 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.class.hpp"
 #include "PhoneBook.class.hpp"
 
-void searchContact();
+void searchContact(PhoneBook &phoneBook);
 void addNewContact(PhoneBook &phoneBook);
 
 int main(void)
@@ -28,6 +28,7 @@ int main(void)
 		std::cout << "- SEARCH" << std::endl;
 		std::cout << "- EXIT" << std::endl;
 		std::cin >> input;
+		std::cout << std::endl;
 
 		if (input == "EXIT" || std::cin.eof() || std::cin.fail())
 		{
@@ -35,7 +36,7 @@ int main(void)
 			return (0);
 		}
 		else if (input == "SEARCH")
-			searchContact();
+			searchContact(phoneBook);
 		else if (input == "ADD")
 			addNewContact(phoneBook);
 	}
@@ -55,22 +56,16 @@ void addNewContact(PhoneBook &phoneBook)
 	for (int i = 0; i < 5; i++)
 	{
 		std::cout << inputFields[i];
-		while (true)
-		{
-			std::cin >> input[i];
-
-			if (input->empty())
-				std::cout << "Field must not be empty. Please enter something." << std::endl;
-			else
-				break;
-		}
+		std::cin >> input[i];
 	}
 
 	Contact newContact(input[0], input[1], input[2], input[3], input[4]);
 	phoneBook.appendContact(newContact);
-	newContact.printDetails();
+	std::cout << "Contact added successfully!" << std::endl
+			  << std::endl;
 }
 
-void searchContact()
+void searchContact(PhoneBook &phoneBook)
 {
+	phoneBook.displayContacts();
 }
