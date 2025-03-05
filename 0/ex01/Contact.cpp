@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:08:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 20:36:21 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:50:24 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ std::string Contact::getLastName(void) const { return this->_lastName; }
 std::string Contact::getNickName(void) const { return this->_nickName; }
 std::string Contact::getPhoneNumber(void) const { return this->_phoneNumber; }
 std::string Contact::getDarkestSecret(void) const { return this->_darkestSecret; }
-
-void Contact::setFirstName(const std::string &firstName) { _firstName = firstName; }
-void Contact::setLastName(const std::string &lastName) { _lastName = lastName; }
-void Contact::setNickName(const std::string &nickName) { _nickName = nickName; }
-void Contact::setPhoneNumber(const std::string &phoneNumber) { _phoneNumber = phoneNumber; }
-void Contact::setDarkestSecret(const std::string &darkestSecret) { _darkestSecret = darkestSecret; }
 
 void Contact::printDetails(void) const
 {

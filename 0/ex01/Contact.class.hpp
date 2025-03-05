@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:16 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 16:56:05 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:50:43 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@ public:
 	std::string getNickName(void) const;
 	std::string getPhoneNumber(void) const;
 	std::string getDarkestSecret(void) const;
-
-	void setFirstName(const std::string &firstName);
-	void setLastName(const std::string &lastName);
-	void setNickName(const std::string &nickName);
-	void setPhoneNumber(const std::string &phoneNumber);
-	void setDarkestSecret(const std::string &darkestSecret);
 
 	void printDetails(void) const;
 };
