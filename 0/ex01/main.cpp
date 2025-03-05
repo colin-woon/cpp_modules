@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 16:32:47 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 16:56:30 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int main(void)
 		else if (input == "SEARCH")
 			searchContact();
 		else if (input == "ADD")
-		{
 			addNewContact(phoneBook);
-			continue;
-		}
 	}
 	return (0);
 }
@@ -71,6 +68,7 @@ void addNewContact(PhoneBook &phoneBook)
 
 	Contact newContact(input[0], input[1], input[2], input[3], input[4]);
 	phoneBook.appendContact(newContact);
+	newContact.printDetails();
 }
 
 void searchContact()
