@@ -6,15 +6,17 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 19:04:33 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:10:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.class.hpp"
 #include "PhoneBook.class.hpp"
+#include <iomanip>
 
 void searchContact(PhoneBook &phoneBook);
 void addNewContact(PhoneBook &phoneBook);
+std::string truncateString(std::string str);
 
 int main(void)
 {
@@ -67,5 +69,25 @@ void addNewContact(PhoneBook &phoneBook)
 
 void searchContact(PhoneBook &phoneBook)
 {
-	phoneBook.displayContacts();
+	std::cout << "---------------------------------------------" << std::endl;
+	std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
+	std::cout << "---------------------------------------------" << std::endl;
+	for (int i = 0; i < phoneBook.getNbOfContacts(); i++)
+	{
+		std::cout << "|" << std::setfill(' ') << std::setw(10) << i + 1;
+		std::cout << "|" << std::setfill(' ') << std::setw(10) << truncateString(phoneBook.getContact(i).getFirstName());
+		std::cout << "|" << std::setfill(' ') << std::setw(10) << truncateString(phoneBook.getContact(i).getLastName());
+		std::cout << "|" << std::setfill(' ') << std::setw(10) << truncateString(phoneBook.getContact(i).getNickName()) << "|" << std::endl;
+		std::cout << "---------------------------------------------" << std::endl;
+	}
+}
+
+std::string truncateString(std::string str)
+{
+	if (str.length() > 10)
+	{
+		str.resize(9);
+		str.append(".");
+	}
+	return (str);
 }
