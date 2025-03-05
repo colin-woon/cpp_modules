@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:39 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/05 20:10:11 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:20:43 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void searchContact(PhoneBook &phoneBook);
 void addNewContact(PhoneBook &phoneBook);
+void viewPhoneBook(PhoneBook &phoneBook);
 std::string truncateString(std::string str);
 
 int main(void)
@@ -29,18 +30,29 @@ int main(void)
 		std::cout << "- ADD" << std::endl;
 		std::cout << "- SEARCH" << std::endl;
 		std::cout << "- EXIT" << std::endl;
-		std::cin >> input;
-		std::cout << std::endl;
 
-		if (input == "EXIT" || std::cin.eof() || std::cin.fail())
+		while (true)
 		{
-			std::cout << "Exiting program..." << std::endl;
-			return (0);
+			std::cin >> input;
+			std::cout << std::endl;
+			if (input == "EXIT" || std::cin.eof() || std::cin.fail())
+			{
+				std::cout << "Exiting program..." << std::endl;
+				return (0);
+			}
+			else if (input == "SEARCH")
+			{
+				searchContact(phoneBook);
+				break;
+			}
+			else if (input == "ADD")
+			{
+				addNewContact(phoneBook);
+				break;
+			}
+			else
+				std::cout << "Invalid command. Please try again." << std::endl;
 		}
-		else if (input == "SEARCH")
-			searchContact(phoneBook);
-		else if (input == "ADD")
-			addNewContact(phoneBook);
 	}
 	return (0);
 }
@@ -69,6 +81,17 @@ void addNewContact(PhoneBook &phoneBook)
 
 void searchContact(PhoneBook &phoneBook)
 {
+	if (phoneBook.getNbOfContacts() == 0)
+	{
+		std::cout << "[No contacts available]" << std::endl
+				  << std::endl;
+		return;
+	}
+	viewPhoneBook(phoneBook);
+}
+
+void viewPhoneBook(PhoneBook &phoneBook)
+{
 	std::cout << "---------------------------------------------" << std::endl;
 	std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
 	std::cout << "---------------------------------------------" << std::endl;
@@ -80,6 +103,7 @@ void searchContact(PhoneBook &phoneBook)
 		std::cout << "|" << std::setfill(' ') << std::setw(10) << truncateString(phoneBook.getContact(i).getNickName()) << "|" << std::endl;
 		std::cout << "---------------------------------------------" << std::endl;
 	}
+	std::cout << std::endl;
 }
 
 std::string truncateString(std::string str)
