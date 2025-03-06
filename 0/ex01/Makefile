@@ -5,7 +5,7 @@
 # Special variables
 DEFAULT_GOAL: all
 .DELETE_ON_ERROR: $(NAME)
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
 
 
 #------------------------------------------------------------------------------#
