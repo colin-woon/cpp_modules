@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 18:00:20 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/06 19:59:29 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/06 20:05:45 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ private:
 
 public:
 	Zombie();
-	Zombie(std::string name);
 	~Zombie();
 	void setName(std::string name);
 	void announce(void);
