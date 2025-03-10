@@ -13,10 +13,10 @@ echo
 
 echo Test 2: Multiple arguments
 INPUT='Damnit " ! " "Sorry students, I thought this thing was off."'
-EXPECTED2="DAMNIT ! SORRY STUDENTS, I THOUGHT THIS THING WAS OFF.n"
+EXPECTED2="DAMNIT ! SORRY STUDENTS, I THOUGHT THIS THING WAS OFF."
 echo "${YELLOW}INPUT: $INPUT${NC}"
 echo "${YELLOW}EXPECTED: $EXPECTED2${NC}"
-./megaphone "$INPUT" | cat -e
+eval ./megaphone $INPUT | cat -e
 echo
 
 echo Test 3: No arguments
