@@ -1,3 +1,5 @@
+make
+
 # abc@==@123
 
 # abc==123
@@ -39,3 +41,6 @@ echo '1234@==@123'
 echo './replace test1.txt 'abc' "12"'
 echo '12@==@123'
 ./replace test1.txt 'abc' "12"
+
+
+make fclean

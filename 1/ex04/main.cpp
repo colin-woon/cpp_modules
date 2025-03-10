@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 21:23:42 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/10 15:29:11 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/10 17:22:42 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ int main(int ac, char **av)
 				new_contents += contents.substr(last_pos + 1, i - last_pos);
 			}
 		}
-		// std::cout << new_contents << std::endl
-		// 		  << std::endl;
+		// std::cout << new_contents << std::endl;
 		std::ofstream outfile("replacement.txt");
 		if (outfile.is_open())
 		{
