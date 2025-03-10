@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 21:23:42 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/10 01:49:27 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/10 15:29:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 int main(int ac, char **av)
 {
-	std::string contents;
-	std::string new_contents;
-
 	if (ac != 4)
 	{
 		std::cerr << "Usage: ./ex04 [filename] [s1] [s2]" << std::endl;
@@ -37,52 +34,39 @@ int main(int ac, char **av)
 		return (1);
 	}
 
-	std::string s1 = av[2];
-	std::string s2 = av[3];
-
 	if (infile)
 	{
-		// Get the file size
+		std::string contents;
+		std::string new_contents;
+		std::string s1 = av[2];
+		std::string s2 = av[3];
+		int last_pos = 0;
+
 		infile.seekg(0, std::ios::end);
 		std::streamsize size = infile.tellg();
 		infile.seekg(0, std::ios::beg);
-
-		// Resize string and read the file
 		contents.resize(size);
 		infile.read(&contents[0], size);
 		infile.close();
-
-		int last_pos = 0;
 		for (size_t i = 0; i < contents.length(); i++)
 		{
 			std::size_t pos;
 
 			pos = contents.find(s1.c_str(), i);
-			// std::cout << pos << std::endl;
-			// std::cout << last_pos << std::endl;
-			// std::cout << i << std::endl;
 			if (pos != std::string::npos)
 			{
 				new_contents += contents.substr(i, pos - i);
 				new_contents.append(s2.c_str());
 				last_pos = pos + s1.length() - 1;
 				i = last_pos;
-				// i = pos + s2.length();
-				// if (s2.length() == 0)
-				// 	i += s1.length();
-				// last_pos = i;
-				// if (s2.length() > s1.length())
-				// 	last_pos -= s2.length() - 1;
 			}
 			if (i + 1 == contents.length())
 			{
 				new_contents += contents.substr(last_pos + 1, i - last_pos);
 			}
-			// std::cout << i << std::endl;
-			// std::cout << last_pos << std::endl;
 		}
-		std::cout << new_contents << std::endl
-				  << std::endl;
+		// std::cout << new_contents << std::endl
+		// 		  << std::endl;
 		std::ofstream outfile("replacement.txt");
 		if (outfile.is_open())
 		{
