@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   occ.cpp                                            :+:      :+:    :+:   */
+/*   ocf.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:11:58 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/11 16:25:00 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/11 17:47:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ public:
 	Sample &operator=(Sample const &rhs) // Assignation operator
 	{
 		cout << "Assignment operator called from " << _n << " to " << rhs.getN() << endl;
+		// this = &rhs will cause an infinite loop since we are trying to overload the exact same operator when the type is same
 		_n = rhs.getN();
 		return *this;
 	}
