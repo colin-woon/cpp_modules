@@ -32,7 +32,7 @@ Fixed::Fixed(int const value)
 	if (value > (INT_MAX >> Fixed::bits) || value < (INT_MIN >> Fixed::bits))
 		throw std::invalid_argument("Error: Integer overflow in conversion");
 	else
-		this->value = value << Fixed::bits;
+		setRawBits(value << Fixed::bits);
 }
 
 Fixed::Fixed(float const value)
@@ -43,7 +43,7 @@ Fixed::Fixed(float const value)
 	if (float_value > (double)INT_MAX || float_value < (double)INT_MIN)
 		throw std::invalid_argument("Error: Float to Integer overflow in conversion");
 	else
-		this->value = roundf(float_value);
+		setRawBits(roundf(float_value));
 }
 
 float Fixed::toFloat(void) const
