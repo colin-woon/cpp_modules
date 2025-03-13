@@ -6,13 +6,13 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 20:23:28 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/06 21:14:14 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/13 19:51:33 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanB.class.hpp"
 
-HumanB::HumanB(std::string name) : _name(name) {}
+HumanB::HumanB(std::string name) : _name(name), _weapon(NULL) {}
 HumanB::~HumanB() {}
 
 void HumanB::attack()

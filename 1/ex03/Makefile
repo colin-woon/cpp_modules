@@ -1,5 +1,5 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 -I $(FSAN)
+CFLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 -I. $(FSAN)
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
