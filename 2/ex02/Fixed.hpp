@@ -10,6 +10,7 @@ class Fixed
 private:
 	int value;
 	static const int bits = 8;
+	static const double epsilon = 1.0 / (double)(1 << Fixed::bits);
 
 public:
 	Fixed();
@@ -36,10 +37,10 @@ public:
 	Fixed operator-(const Fixed &other) const;
 	Fixed operator*(const Fixed &other) const;
 	Fixed operator/(const Fixed &other) const;
-	Fixed &operator++() const;
-	Fixed operator++(int) const;
-	Fixed &operator--() const;
-	Fixed operator--(int) const;
+	Fixed &operator++();
+	Fixed operator++(int);
+	Fixed &operator--();
+	Fixed operator--(int);
 
 	static Fixed &min(Fixed &a, Fixed &b);
 	static Fixed &max(Fixed &a, Fixed &b);
