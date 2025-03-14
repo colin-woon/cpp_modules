@@ -70,14 +70,20 @@ bool Fixed::operator!=(const Fixed &other) const { return (this->value != other.
 Fixed Fixed::operator+(const Fixed &other) const
 {
 	Fixed result;
-	result.setRawBits(this->value + other.getRawBits());
+	long temp = (long)this->value + (long)other.getRawBits();
+	if (temp > INT_MAX || temp < INT_MIN)
+		throw std::overflow_error("Addition overflow");
+	result.setRawBits((int)temp);
 	return result;
 }
 
 Fixed Fixed::operator-(const Fixed &other) const
 {
 	Fixed result;
-	result.setRawBits(this->value - other.getRawBits());
+	long temp = (long)this->value - (long)other.getRawBits();
+	if (temp > INT_MAX || temp < INT_MIN)
+		throw std::overflow_error("Subtraction overflow");
+	result.setRawBits((int)temp);
 	return result;
 }
 

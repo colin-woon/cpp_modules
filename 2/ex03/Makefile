@@ -4,7 +4,7 @@ FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
 NAME = a.out
-SRCS = main.cpp Fixed.cpp
+SRCS = main.cpp Fixed.cpp Point.cpp bsp.cpp
 OBJS = $(SRCS:.cpp=.o)
 INC = $(wildcard *.hpp)
 
