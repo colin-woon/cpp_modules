@@ -30,7 +30,7 @@ Fixed::Fixed(int const value)
 {
 	std::cout << "Int constructor called" << std::endl;
 	if (value > (INT_MAX >> Fixed::bits) || value < (INT_MIN >> Fixed::bits))
-		throw std::invalid_argument("Error: Integer overflow in conversion");
+		throw std::overflow_error("Error: Integer overflow in conversion");
 	else
 		setRawBits(value << Fixed::bits);
 }
@@ -41,7 +41,7 @@ Fixed::Fixed(float const value)
 	double float_value = (double)value * (1 << Fixed::bits);
 
 	if (float_value > (double)INT_MAX || float_value < (double)INT_MIN)
-		throw std::invalid_argument("Error: Float to Integer overflow in conversion");
+		throw std::overflow_error("Error: Float to Integer overflow in conversion");
 	else
 		setRawBits(roundf(float_value));
 }
