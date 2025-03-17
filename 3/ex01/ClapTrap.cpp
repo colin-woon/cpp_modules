@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 15:08:03 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 15:30:52 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void ClapTrap::attack(const std::string &target)
 	}
 	if (this->getHitPoints() == 0)
 	{
-		std::cout << "ClapTrap " << this->getName() << " is out of hit points and cannot attack!" << std::endl;
+		std::cout << "ClapTrap " << this->getName() << " is dead and cannot attack!" << std::endl;
 		return;
 	}
-	std::cout << "ClapTrap " << this->getName() << " attacks " << target << ", causing " << this->getAttackDamage() << " points of damage!" << std::endl;
 	this->useEnergyPoints();
+	std::cout << "ClapTrap " << this->getName() << " attacks " << target << ", causing " << this->getAttackDamage() << " points of damage!" << std::endl;
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
