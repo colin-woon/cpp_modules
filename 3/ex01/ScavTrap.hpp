@@ -1,13 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/17 14:59:41 by cwoon             #+#    #+#             */
+/*   Updated: 2025/03/17 15:00:19 by cwoon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
-class ScavTrap
+#include "ClapTrap.hpp"
+
+class ScavTrap : public ClapTrap
 {
 public:
-    ScavTrap();                           
-    ScavTrap(const ScavTrap& other);
-    ScavTrap& operator=(const ScavTrap& other);
-    ~ScavTrap();                         
+	ScavTrap();
+	ScavTrap(const ScavTrap &other);
+	ScavTrap &operator=(const ScavTrap &other);
+	~ScavTrap();
+
+	ScavTrap(const std::string &name);
+	void guardGate();
 };
 
 #endif

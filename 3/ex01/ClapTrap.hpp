@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:10 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 13:58:19 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 15:02:12 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ public:
 	unsigned int getAttackDamage() const;
 	unsigned int getHitPoints() const;
 	unsigned int getEnergyPoints() const;
+
+	void setName(const std::string &name);
+	void setHitPoints(unsigned int hitPoints);
+	void setEnergyPoints(unsigned int energyPoints);
+	void setAttackDamage(unsigned int attackDamage);
 
 	void useEnergyPoints();
 	void reduceHitPoints(unsigned int damageAmount);
