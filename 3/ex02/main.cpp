@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 17:00:05 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 19:21:08 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,10 @@ int main()
 	std::cout << "Copy Damage: " << frag_copy.getAttackDamage() << std::endl;
 	frag_copy.attack("Target");
 	frag_copy.highFivesGuys();
+
+	std::cout << "\n=== Test EXTRA: FragTrap destructor test using new===" << std::endl;
+	ClapTrap *heapFrag = new FragTrap("HeapFrag");
+	delete heapFrag;
 
 	return 0;
 }

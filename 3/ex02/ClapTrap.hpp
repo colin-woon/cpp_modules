@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:10 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 15:02:12 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 19:17:53 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ public:
 	ClapTrap();
 	ClapTrap(const ClapTrap &other);
 	ClapTrap &operator=(const ClapTrap &other);
-	~ClapTrap();
+	virtual ~ClapTrap();
 
 	std::string getName() const;
 	unsigned int getAttackDamage() const;

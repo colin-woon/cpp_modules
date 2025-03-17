@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 15:30:02 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 19:16:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ int main()
 	ScavTrap copy(original);
 	copy.attack("Target");
 	copy.guardGate();
+
+	std::cout << "\n=== Test EXTRA: ScavTrap destructor test using new===" << std::endl;
+	ClapTrap *heapScav = new ScavTrap("HeapScav");
+	delete heapScav;
 
 	return 0;
 }
