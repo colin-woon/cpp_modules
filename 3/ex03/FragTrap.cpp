@@ -31,3 +31,6 @@ void FragTrap::highFivesGuys()
 {
 	std::cout << "FragTrap " << this->getName() << " requests a high five!" << std::endl;
 }
+
+unsigned int FragTrap::getDefaultAttackDamage() const { return 30; }
+unsigned int FragTrap::getDefaultHitPoints() const { return 100; }

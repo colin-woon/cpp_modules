@@ -6,12 +6,11 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 17:00:05 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 20:09:38 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScavTrap.hpp"
-#include "FragTrap.hpp"
+#include "DiamondTrap.hpp"
 
 /*
 Tests
@@ -119,44 +118,88 @@ int main()
 	// copy.attack("Target");
 	// copy.guardGate();
 
-	std::cout << "\n=== FragTrap Tests ===" << std::endl;
+	// std::cout << "\n=== FragTrap Tests ===" << std::endl;
 
-	std::cout << "\n=== Test 16: FragTrap normal attack ===" << std::endl;
-	FragTrap frag_attacker("FragAttacker");
-	FragTrap frag_target("FragTarget");
-	frag_attacker.attack(frag_target.getName());
-	frag_target.takeDamage(frag_attacker.getAttackDamage());
+	// std::cout << "\n=== Test 16: FragTrap normal attack ===" << std::endl;
+	// FragTrap frag_attacker("FragAttacker");
+	// FragTrap frag_target("FragTarget");
+	// frag_attacker.attack(frag_target.getName());
+	// frag_target.takeDamage(frag_attacker.getAttackDamage());
 
-	std::cout << "\n=== Test 17: FragTrap High Fives ===" << std::endl;
-	frag_attacker.highFivesGuys();
+	// std::cout << "\n=== Test 17: FragTrap High Fives ===" << std::endl;
+	// frag_attacker.highFivesGuys();
 
-	std::cout << "\n=== Test 18: FragTrap energy points depletion ===" << std::endl;
-	FragTrap frag_maxAttacks("FragMaxAttacks");
-	for (int i = 0; i < 100; ++i)
-	{
-		frag_maxAttacks.attack("Someone");
-		std::cout << "Energy points: " << frag_maxAttacks.getEnergyPoints() << std::endl;
-	}
-	frag_maxAttacks.attack("Someone"); // Should fail - no energy points
+	// std::cout << "\n=== Test 18: FragTrap energy points depletion ===" << std::endl;
+	// FragTrap frag_maxAttacks("FragMaxAttacks");
+	// for (int i = 0; i < 100; ++i)
+	// {
+	// 	frag_maxAttacks.attack("Someone");
+	// 	std::cout << "Energy points: " << frag_maxAttacks.getEnergyPoints() << std::endl;
+	// }
+	// frag_maxAttacks.attack("Someone"); // Should fail - no energy points
 
-	std::cout << "\n=== Test 19: FragTrap high HP and damage test ===" << std::endl;
-	FragTrap powerhouse("Powerhouse");
-	std::cout << "Initial HP: " << powerhouse.getHitPoints() << std::endl;
-	std::cout << "Attack Damage: " << powerhouse.getAttackDamage() << std::endl;
-	powerhouse.takeDamage(50);
-	std::cout << "After 50 damage: " << powerhouse.getHitPoints() << std::endl;
-	powerhouse.takeDamage(50);
-	powerhouse.attack("Someone"); // Should fail - no hit points
-	powerhouse.highFivesGuys();	  // Should still work with 0 HP
+	// std::cout << "\n=== Test 19: FragTrap high HP and damage test ===" << std::endl;
+	// FragTrap powerhouse("Powerhouse");
+	// std::cout << "Initial HP: " << powerhouse.getHitPoints() << std::endl;
+	// std::cout << "Attack Damage: " << powerhouse.getAttackDamage() << std::endl;
+	// powerhouse.takeDamage(50);
+	// std::cout << "After 50 damage: " << powerhouse.getHitPoints() << std::endl;
+	// powerhouse.takeDamage(50);
+	// powerhouse.attack("Someone"); // Should fail - no hit points
+	// powerhouse.highFivesGuys();	  // Should still work with 0 HP
 
-	std::cout << "\n=== Test 20: FragTrap copy constructor test ===" << std::endl;
-	FragTrap frag_original("FragOriginal");
-	FragTrap frag_copy(frag_original);
-	std::cout << "Copy HP: " << frag_copy.getHitPoints() << std::endl;
-	std::cout << "Copy Energy: " << frag_copy.getEnergyPoints() << std::endl;
-	std::cout << "Copy Damage: " << frag_copy.getAttackDamage() << std::endl;
-	frag_copy.attack("Target");
-	frag_copy.highFivesGuys();
+	// std::cout << "\n=== Test 20: FragTrap copy constructor test ===" << std::endl;
+	// FragTrap frag_original("FragOriginal");
+	// FragTrap frag_copy(frag_original);
+	// std::cout << "Copy HP: " << frag_copy.getHitPoints() << std::endl;
+	// std::cout << "Copy Energy: " << frag_copy.getEnergyPoints() << std::endl;
+	// std::cout << "Copy Damage: " << frag_copy.getAttackDamage() << std::endl;
+	// frag_copy.attack("Target");
+	// frag_copy.highFivesGuys();
+
+	std::cout << "\n=== DiamondTrap Tests ===" << std::endl;
+
+	std::cout << "\n=== Test 21: DiamondTrap Constructor and Names ===" << std::endl;
+	DiamondTrap diamond("Diamond");
+	diamond.whoAmI(); // Should show both names
+
+	std::cout << "\n=== Test 22: DiamondTrap Attack (inherited from ScavTrap) ===" << std::endl;
+	DiamondTrap attacker("Attacker");
+	DiamondTrap victim("Victim");
+	attacker.attack(victim.getName());
+	victim.takeDamage(attacker.getAttackDamage());
+
+	std::cout << "\n=== Test 23: DiamondTrap All Special Abilities ===" << std::endl;
+	diamond.guardGate();	 // From ScavTrap
+	diamond.highFivesGuys(); // From FragTrap
+	diamond.whoAmI();		 // DiamondTrap specific
+
+	std::cout << "\n=== Test 24: DiamondTrap Stats Verification ===" << std::endl;
+	std::cout << "Hit Points (should be FragTrap's 100): " << diamond.getHitPoints() << std::endl;
+	std::cout << "Energy Points (should be ScavTrap's 50): " << diamond.getEnergyPoints() << std::endl;
+	std::cout << "Attack Damage (should be FragTrap's 30): " << diamond.getAttackDamage() << std::endl;
+
+	std::cout << "\n=== Test 25: DiamondTrap Copy Constructor ===" << std::endl;
+	DiamondTrap original("Original");
+	DiamondTrap copy(original);
+	std::cout << "Original's stats:" << std::endl;
+	std::cout << "HP: " << original.getHitPoints() << std::endl;
+	std::cout << "Energy: " << original.getEnergyPoints() << std::endl;
+	std::cout << "Damage: " << original.getAttackDamage() << std::endl;
+	std::cout << "Copy's stats:" << std::endl;
+	std::cout << "HP: " << copy.getHitPoints() << std::endl;
+	std::cout << "Energy: " << copy.getEnergyPoints() << std::endl;
+	std::cout << "Damage: " << copy.getAttackDamage() << std::endl;
+	copy.whoAmI(); // Verify names were copied correctly
+
+	std::cout << "\n=== Test 26: DiamondTrap Assignment Operator ===" << std::endl;
+	DiamondTrap assigned("Assigned");
+	assigned = original;
+	assigned.whoAmI(); // Verify names were assigned correctly
+
+	std::cout << "\n=== Test EXTRA: DiamondTrap assigned with new keyword ===" << std::endl;
+	ClapTrap *heapDiamond = new DiamondTrap("HeapDiamond");
+	delete heapDiamond;
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:59:46 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 15:31:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 19:59:16 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,5 @@ void ScavTrap::guardGate()
 {
 	std::cout << this->getName() << " has entered in Gate keeper mode." << std::endl;
 }
+
+unsigned int ScavTrap::getDefaultEnergyPoints() const { return 50; }

@@ -13,6 +13,9 @@ public:
 
 	FragTrap(const std::string &name);
 	void highFivesGuys(void);
+
+	unsigned int getDefaultAttackDamage() const;
+	unsigned int getDefaultHitPoints() const;
 };
 
 #endif

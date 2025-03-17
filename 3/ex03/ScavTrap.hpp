@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:59:41 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 17:57:11 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/17 19:59:24 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ public:
 	void guardGate();
 
 	void attack(const std::string &target);
+
+	unsigned int getDefaultEnergyPoints() const;
 };
 
 #endif
