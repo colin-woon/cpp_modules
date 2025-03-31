@@ -6,11 +6,12 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:51:11 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/31 21:13:06 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/31 21:42:20 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cat.hpp"
+#include "WrongCat.hpp"
 #include "Dog.hpp"
 
 int main()
@@ -87,6 +88,29 @@ int main()
 	{
 		delete animals[k];
 	}
+
+	std::cout << "\n=== WrongAnimal Tests (Non-Virtual Behavior) ===" << std::endl;
+	const WrongAnimal *wrong_meta = new WrongAnimal();
+	const WrongAnimal *wrong_cat = new WrongCat(); // Polymorphic pointer
+
+	std::cout << "\nTesting getType() for WrongAnimals:" << std::endl;
+	std::cout << "WrongCat type: " << wrong_cat->getType() << std::endl;
+	std::cout << "WrongAnimal type: " << wrong_meta->getType() << std::endl;
+
+	std::cout << "\nTesting makeSound() for WrongAnimals:" << std::endl;
+	std::cout << "WrongCat should use WrongAnimal's sound due to missing virtual:" << std::endl;
+	wrong_cat->makeSound(); // Will call WrongAnimal::makeSound() due to no virtual
+	wrong_meta->makeSound();
+
+	// Direct call to show the difference
+	std::cout << "\nDirect call to WrongCat's makeSound():" << std::endl;
+	WrongCat actual_wrong_cat;
+	actual_wrong_cat.makeSound(); // Will call WrongCat::makeSound()
+
+	std::cout << "\n=== Cleanup WrongAnimals ===" << std::endl;
+	delete wrong_cat;
+	delete wrong_meta;
+
 	std::cout << std::endl
 			  << "Deleting others..." << std::endl
 			  << std::endl;

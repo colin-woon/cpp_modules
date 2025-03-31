@@ -4,8 +4,7 @@ FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
 NAME = animals
-SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp
-# WrongCat.cpp WrongAnimal.cpp
+SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongAnimal.cpp
 OBJS = $(SRCS:.cpp=.o)
 INC = $(wildcard *.hpp)
 
