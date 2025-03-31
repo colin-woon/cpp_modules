@@ -6,114 +6,86 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:51:11 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/31 21:42:20 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/31 22:38:32 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cat.hpp"
-#include "WrongCat.hpp"
 #include "Dog.hpp"
+
+// RAII (Resource Acquisition Is Initialization) mainly a c++ design principle
+// that ensures resources are properly managed and released when they go out of scope.
+// It is a programming idiom that binds the lifecycle of a resource to the lifetime of an object.
+
+// In this case, the resource is the memory allocated for the Brain object.
+// The Brain object is allocated in the constructor of the Dog class and is released in the destructor.
+
+// DEEP COPY VS SHALLOW COPY
+// Shallow Copy :
+// - Copies the memory addresses of dynamically allocated objects instead of duplicating the actual content.
+// - This leads to multiple objects sharing the same memory, which can cause issues like double deletion when one object goes out of scope and deallocates the shared memory.
+// Default copy constructor and assignment operator perform a shallow copy.
+
+// Deep Copy :
+// - Allocates new memory and copies the actual contents of dynamically allocated objects, ensuring each object has its own independent copy.
+// - Requires implementing a custom copy constructor and copy assignment operator to handle dynamic memory correctly.
 
 int main()
 {
-	std::cout << "\n=== Basic Polymorphism Tests ===" << std::endl;
-	const Animal *meta = new Animal();
 	const Animal *j = new Dog();
 	const Animal *i = new Cat();
 
-	std::cout << "\nTesting getType():" << std::endl;
-	std::cout << "Dog type: " << j->getType() << std::endl;
-	std::cout << "Cat type: " << i->getType() << std::endl;
-	std::cout << "Base type: " << meta->getType() << std::endl;
-
-	std::cout << "\nTesting makeSound():" << std::endl;
-	i->makeSound();
-	j->makeSound();
-	meta->makeSound();
-
-	std::cout << "\n=== Copy Constructor Tests ===" << std::endl;
-	Dog originalDog;
-	Dog copiedDog(originalDog);
-	std::cout << "Original Dog type: " << originalDog.getType() << std::endl;
-	std::cout << "Copied Dog type: " << copiedDog.getType() << std::endl;
-
-	Cat originalCat;
-	Cat copiedCat(originalCat);
-	std::cout << "Original Cat type: " << originalCat.getType() << std::endl;
-	std::cout << "Copied Cat type: " << copiedCat.getType() << std::endl;
-
-	std::cout << "\n=== Assignment Operator Tests ===" << std::endl;
-	Dog assignedDog;
-	assignedDog = originalDog;
-	std::cout << "Assigned Dog type: " << assignedDog.getType() << std::endl;
-
-	Cat assignedCat;
-	assignedCat = originalCat;
-	std::cout << "Assigned Cat type: " << assignedCat.getType() << std::endl;
-
-	std::cout << "\n=== Type Constructor Tests ===" << std::endl;
-	Dog customDog("CustomDog");
-	Cat customCat("CustomCat");
-	std::cout << "Custom Dog type: " << customDog.getType() << std::endl;
-	std::cout << "Custom Cat type: " << customCat.getType() << std::endl;
-
-	std::cout << "\n=== Array of Animals Test ===" << std::endl;
-	Animal *animals[4];
-	for (int k = 0; k < 2; k++)
-	{
-		animals[k] = new Dog();
-	}
-	for (int k = 2; k < 4; k++)
-	{
-		animals[k] = new Cat();
-	}
-
-	for (int k = 0; k < 4; k++)
-	{
-		std::cout << "Animal " << k << " type: " << animals[k]->getType() << std::endl;
-		animals[k]->makeSound();
-	}
-
-	std::cout << "\n=== Cleanup ===" << std::endl;
-	std::cout << "Deleting i, j and meta objects..." << std::endl
-			  << std::endl;
-	delete j;
+	// To trigger leak, remove the delete this->_brain command in the Dog or Cat destructors.
+	delete j; // should not create a leak
 	delete i;
-	delete meta;
 
-	std::cout << std::endl
-			  << "Deleting animals array..." << std::endl
-			  << std::endl;
-	for (int k = 0; k < 4; k++)
+	std::cout << "\n=== Creating Array of Animals ===" << std::endl;
+	const int arraySize = 4;
+	Animal *animals[arraySize];
+
+	// Fill array with Dogs and Cats
+	std::cout << "\n=== Creating Dogs ===" << std::endl;
+	for (int i = 0; i < arraySize / 2; i++)
 	{
-		delete animals[k];
+		animals[i] = new Dog();
 	}
 
-	std::cout << "\n=== WrongAnimal Tests (Non-Virtual Behavior) ===" << std::endl;
-	const WrongAnimal *wrong_meta = new WrongAnimal();
-	const WrongAnimal *wrong_cat = new WrongCat(); // Polymorphic pointer
+	std::cout << "\n=== Creating Cats ===" << std::endl;
+	for (int i = arraySize / 2; i < arraySize; i++)
+	{
+		animals[i] = new Cat();
+	}
 
-	std::cout << "\nTesting getType() for WrongAnimals:" << std::endl;
-	std::cout << "WrongCat type: " << wrong_cat->getType() << std::endl;
-	std::cout << "WrongAnimal type: " << wrong_meta->getType() << std::endl;
+	// To trigger double deletion to prove deep and shallow copy, remove the delete _brain command in the Dog or Cat copy assignment operator.
+	std::cout << "\n=== Testing Deep Copy for Dog ===" << std::endl;
+	{
+		Dog originalDog;
+		Dog copyDog = originalDog; // Copy constructor
 
-	std::cout << "\nTesting makeSound() for WrongAnimals:" << std::endl;
-	std::cout << "WrongCat should use WrongAnimal's sound due to missing virtual:" << std::endl;
-	wrong_cat->makeSound(); // Will call WrongAnimal::makeSound() due to no virtual
-	wrong_meta->makeSound();
+		// Verify they are different objects
+		std::cout << "Original Dog address: " << &originalDog << std::endl;
+		std::cout << "Copied Dog address: " << &copyDog << std::endl;
 
-	// Direct call to show the difference
-	std::cout << "\nDirect call to WrongCat's makeSound():" << std::endl;
-	WrongCat actual_wrong_cat;
-	actual_wrong_cat.makeSound(); // Will call WrongCat::makeSound()
+		// Both dogs should be destroyed here
+	}
 
-	std::cout << "\n=== Cleanup WrongAnimals ===" << std::endl;
-	delete wrong_cat;
-	delete wrong_meta;
+	std::cout << "\n=== Testing Deep Copy for Cat ===" << std::endl;
+	{
+		Cat originalCat;
+		Cat copyCat(originalCat); // Copy constructor
 
-	std::cout << std::endl
-			  << "Deleting others..." << std::endl
-			  << std::endl;
+		// Verify they are different objects
+		std::cout << "Original Cat address: " << &originalCat << std::endl;
+		std::cout << "Copied Cat address: " << &copyCat << std::endl;
+
+		// Both cats should be destroyed here
+	}
+
+	std::cout << "\n=== Deleting Array of Animals ===" << std::endl;
+	for (int i = 0; i < arraySize; i++)
+	{
+		delete animals[i]; // Should call appropriate destructors
+	}
 
 	return 0;
 }

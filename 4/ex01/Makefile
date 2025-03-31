@@ -3,8 +3,8 @@ CFLAGS = -Wall -Wextra -Werror -I. -std=c++98 -Wpedantic $(FSAN)
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
-NAME = animals
-SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongAnimal.cpp
+NAME = animalbrains
+SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp Brain.cpp
 OBJS = $(SRCS:.cpp=.o)
 INC = $(wildcard *.hpp)
 

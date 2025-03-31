@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:51:44 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/31 21:04:56 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/03/31 21:51:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 #define DOG_HPP
 
 #include "Animal.hpp"
+#include "Brain.hpp"
 
 class Dog : public Animal
 {
+private:
+	Brain *_brain;
+
 public:
 	Dog();
 	Dog(const Dog &other);
