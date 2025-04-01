@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:58 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:26:10 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 22:28:03 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int main()
 	me->equip(tmp); // Fourth slot
 	tmp = src->createMateria("ice");
 	me->equip(tmp); // Should fail (full inventory)
+	delete tmp;		// Clean up unequipped materia
 
 	// Test 4: Unequip and floor management
 	std::cout << "\n=== Test 4: Unequip Functionality ===\n";

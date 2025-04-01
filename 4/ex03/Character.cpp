@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:22:53 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 22:30:12 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,11 @@ void Character::equip(AMateria *m)
 			}
 		}
 	}
-	addToFloor(m);
+	else
+	{
+		std::cout << "Cannot equip: Inventory is full" << std::endl;
+		return;
+	}
 }
 
 void Character::unequip(int idx)
