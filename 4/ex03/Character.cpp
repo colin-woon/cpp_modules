@@ -6,14 +6,13 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:30:12 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 22:39:22 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
 
-AMateria *Character::_floor[MAX_MATERIA_FLOOR] = {};
-int Character::_floorIndex = 0;
+Character::FloorNode *Character::_floorHead = NULL;
 int Character::_characterCount = 0;
 bool Character::_isLastCharacter = false;
 
@@ -185,20 +184,15 @@ void Character::decreaseInventoryCount()
 
 void Character::cleanFloor()
 {
-	for (int i = 0; i < MAX_MATERIA_FLOOR; i++)
+	FloorNode *current = _floorHead;
+	while (current)
 	{
-		if (_floor[i])
-		{
-			delete _floor[i];
-			_floor[i] = NULL;
-		}
+		FloorNode *next = current->next;
+		delete current->materia; // Delete the materia
+		delete current;			 // Delete the node
+		current = next;
 	}
-	_floorIndex = 0;
-}
-
-void Character::incrementFloorIndex()
-{
-	_floorIndex = (_floorIndex + 1) % MAX_MATERIA_FLOOR;
+	_floorHead = NULL;
 }
 
 void Character::decrementCharacterCount()
@@ -213,19 +207,12 @@ void Character::addToFloor(AMateria *m)
 	if (!m)
 		return;
 
-	// Store type before any operations
-	std::string materiaType = m->getType();
+	// Create new node
+	FloorNode *newNode = new FloorNode(m);
 
-	// Replace old floor materia if it exists
-	if (_floor[_floorIndex])
-	{
-		std::cout << "Floor position " << _floorIndex << " is occupied. Replacing..." << std::endl;
-		std::cout << "Replacing " << _floor[_floorIndex]->getType() << " with " << materiaType << std::endl;
-		delete _floor[_floorIndex];
-		_floor[_floorIndex] = NULL;
-	}
+	// Add to the beginning of the list for simplicity
+	newNode->next = _floorHead;
+	_floorHead = newNode;
 
-	_floor[_floorIndex] = m;
-	std::cout << "Added " << materiaType << " to floor position " << _floorIndex << std::endl;
-	incrementFloorIndex();
+	std::cout << "Added " << m->getType() << " to floor" << std::endl;
 }
