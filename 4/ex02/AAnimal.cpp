@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Animal.cpp                                         :+:      :+:    :+:   */
+/*   AAnimal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 
-Animal::Animal() : _type("none") { std::cout << "Animal default constructor called" << std::endl; }
+AAnimal::AAnimal() : _type("none") { std::cout << "AAnimal default constructor called" << std::endl; }
 
-Animal::Animal(const Animal &other) : _type(other._type) {}
+AAnimal::AAnimal(const AAnimal &other) : _type(other._type) {}
 
-Animal &Animal::operator=(const Animal &other)
+AAnimal &AAnimal::operator=(const AAnimal &other)
 {
 	if (this != &other)
 	{
@@ -25,18 +25,16 @@ Animal &Animal::operator=(const Animal &other)
 	return *this;
 }
 
-Animal::~Animal() { std::cout << "Animal destructor called" << std::endl; }
+AAnimal::~AAnimal() { std::cout << "AAnimal destructor called" << std::endl; }
 
-Animal::Animal(std::string type) : _type(type) {}
+AAnimal::AAnimal(std::string type) : _type(type) {}
 
-std::string Animal::getType() const
+std::string AAnimal::getType() const
 {
 	return this->_type;
 }
 
-void Animal::setType(std::string new_type)
+void AAnimal::setType(std::string new_type)
 {
 	this->_type = new_type;
 }
-
-void Animal::makeSound() const { std::cout << "Animal sound" << std::endl; }
