@@ -4,7 +4,7 @@ FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
 NAME = materia
-SRCS = main.cpp AMateria.cpp
+SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp Character.cpp MateriaSource.cpp
 OBJS = $(SRCS:.cpp=.o)
 INC = $(wildcard *.hpp)
 
