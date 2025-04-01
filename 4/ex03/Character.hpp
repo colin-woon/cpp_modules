@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:53:20 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 20:19:27 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 22:07:29 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ private:
 	int _inventoryCount;
 	static const int MAX_MATERIA_FLOOR = 100;
 	static AMateria *_floor[MAX_MATERIA_FLOOR];
-	static int _floorMateriaCount;
+	static int _floorIndex;
+	static void incrementFloorIndex();
+	static bool _isLastCharacter; // Add this to track if it's the last Character instance
+	static void decrementCharacterCount();
+	static int _characterCount;
+	void addToFloor(AMateria *m);
 
 public:
 	Character();
