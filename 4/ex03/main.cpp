@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:58 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:28:03 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 23:38:02 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int main()
 	ICharacter *me = new Character("me");
 	AMateria *tmp;
 
+	me->equip(NULL); // Should handle null
 	tmp = src->createMateria("ice");
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
@@ -164,6 +165,48 @@ int main()
 	delete alice;
 	delete bob;
 	delete me;
+
+	std::cout << "\n=== Test 9: Last Character Cleanup Demonstration ===\n";
+
+	// Create multiple characters that will share floor materias
+	Character *char1 = new Character("First");
+	Character *char2 = new Character("Second");
+	Character *char3 = new Character("Last");
+
+	// Create some materias and place on floor
+	AMateria *m1 = src->createMateria("ice");
+	AMateria *m2 = src->createMateria("cure");
+	AMateria *m3 = src->createMateria("ice");
+
+	// Equip and unequip to place materias on floor
+	char1->equip(m1);
+	char1->unequip(0); // m1 goes to floor
+	char2->equip(m2);
+	char2->unequip(0); // m2 goes to floor
+	char3->equip(m3);
+	char3->unequip(0); // m3 goes to floor
+
+	std::cout << "\nDEMONSTRATING CHARACTER TRACKING IMPORTANCE:\n";
+	std::cout << "1. All materias are currently on the floor:\n";
+	Character::printFloorMaterias(); // Show initial floor state
+
+	// Without proper tracking, deleting any character would clear the floor!
+	delete char1; // Should NOT clean floor with proper tracking
+	std::cout << "\nFirst character deleted, floor materias should still be accessible:\n";
+	Character::printFloorMaterias(); // Should still show materias if tracking works
+
+	delete char2; // Should NOT clean floor with proper tracking
+	std::cout << "\nSecond character deleted, floor materias should still be accessible:\n";
+	Character::printFloorMaterias(); // Should still show materias if tracking works
+
+	std::cout << "\nDeleting last character will clean up all floor materias...\n";
+	delete char3; // Should clean floor (last character)
+	std::cout << "Last character deleted, floor materias cleaned up:\n";
+	Character::printFloorMaterias(); // Should show empty floor
+
+	// At this point, all floor materias have been properly cleaned up
+	// If we didn't track the last character, we'd have memory leaks
+
 	delete src;
 
 	return 0;

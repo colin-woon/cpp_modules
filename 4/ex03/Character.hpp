@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:53:20 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:37:38 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 23:40:25 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ private:
 		FloorNode(AMateria *m) : materia(m), next(NULL) {}
 	};
 	static FloorNode *_floorHead;
+	static FloorNode *_floorTail;
 	void addToFloor(AMateria *m);
 
 public:
@@ -56,6 +57,9 @@ public:
 	void decreaseInventoryCount();
 
 	static void cleanFloor();
+
+	// To test proper cleanup of floor
+	static void printFloorMaterias();
 };
 
 #endif

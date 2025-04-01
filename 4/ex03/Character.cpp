@@ -6,13 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 22:39:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 23:47:41 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
 
 Character::FloorNode *Character::_floorHead = NULL;
+Character::FloorNode *Character::_floorTail = NULL;
 int Character::_characterCount = 0;
 bool Character::_isLastCharacter = false;
 
@@ -68,8 +69,16 @@ Character::~Character()
 	}
 
 	decrementCharacterCount();
+	// // Option 1: Always clean floor (problematic - causes use-after-free)
+	// cleanFloor();
+
+	// Option 2: Only clean when last character is destroyed (correct)
 	if (_isLastCharacter)
+	{
+		// std::cout << "LAST CHARACTER" << std::endl;
 		cleanFloor();
+		_isLastCharacter = false;
+	}
 }
 
 Character::Character(std::string name) : _name(name), _inventory(), _inventoryCount(0)
@@ -184,6 +193,7 @@ void Character::decreaseInventoryCount()
 
 void Character::cleanFloor()
 {
+	// std::cout << "CLEANING FLOOR" << std::endl;
 	FloorNode *current = _floorHead;
 	while (current)
 	{
@@ -193,6 +203,7 @@ void Character::cleanFloor()
 		current = next;
 	}
 	_floorHead = NULL;
+	_floorTail = NULL;
 }
 
 void Character::decrementCharacterCount()
@@ -210,9 +221,42 @@ void Character::addToFloor(AMateria *m)
 	// Create new node
 	FloorNode *newNode = new FloorNode(m);
 
-	// Add to the beginning of the list for simplicity
-	newNode->next = _floorHead;
-	_floorHead = newNode;
+	if (!_floorHead)
+	{
+		// First node in the list
+		_floorHead = newNode;
+		_floorTail = newNode;
+	}
+	else
+	{
+		// Append to the end
+		_floorTail->next = newNode;
+		_floorTail = newNode;
+	}
 
 	std::cout << "Added " << m->getType() << " to floor" << std::endl;
+}
+
+void Character::printFloorMaterias()
+{
+	std::cout << "Contents of floor: ";
+
+	if (!_floorHead)
+	{
+		std::cout << "Empty (no materias on floor)" << std::endl;
+		return;
+	}
+
+	std::cout << std::endl;
+	FloorNode *current = _floorHead;
+	int count = 0;
+
+	while (current)
+	{
+		std::cout << "  " << count << ": " << current->materia->getType() << std::endl;
+		current = current->next;
+		count++;
+	}
+
+	std::cout << "Total materias on floor: " << count << std::endl;
 }
