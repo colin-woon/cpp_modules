@@ -6,18 +6,21 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:10:35 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 17:49:49 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 20:28:01 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cure.hpp"
 
-Cure::Cure() : AMateria("cure") { std::cout << "Cure default constructor called" << std::endl; }
+Cure::Cure() : AMateria("cure")
+{
+	// std::cout << "Cure default constructor called" << std::endl;
+}
 
 Cure::Cure(const Cure &other) : AMateria("cure")
 {
 	(void)other;
-	std::cout << "Cure copy constructor called" << std::endl;
+	// std::cout << "Cure copy constructor called" << std::endl;
 }
 
 Cure &Cure::operator=(const Cure &other)
@@ -26,11 +29,14 @@ Cure &Cure::operator=(const Cure &other)
 	return *this;
 }
 
-Cure::~Cure() { std::cout << "Cure destructor called" << std::endl; }
+Cure::~Cure()
+{
+	// std::cout << "Cure destructor called" << std::endl;
+}
 
 AMateria *Cure::clone() const
 {
-	std::cout << "Cure clone called" << std::endl;
+	// std::cout << "Cure clone called" << std::endl;
 	return new Cure(*this);
 }
 

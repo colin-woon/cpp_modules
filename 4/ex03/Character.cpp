@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 19:47:43 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 20:27:17 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 AMateria *Character::_floor[MAX_MATERIA_FLOOR] = {};
 int Character::_floorMateriaCount = 0;
 
-Character::Character() : _name(""), _inventoryCount(0), _inventory() { std::cout << "Character default constructor called" << std::endl; }
+Character::Character() : _name(""), _inventory(), _inventoryCount(0)
+{
+	// std::cout << "Character default constructor called" << std::endl;
+}
 
 Character::Character(const Character &other) : _name(other.getName()), _inventoryCount(other.getInventoryCount())
 {
@@ -26,7 +29,7 @@ Character::Character(const Character &other) : _name(other.getName()), _inventor
 		else
 			this->_inventory[i] = NULL;
 	}
-	std::cout << "Character copy constructor called" << std::endl;
+	// std::cout << "Character copy constructor called" << std::endl;
 }
 
 Character &Character::operator=(const Character &other)
@@ -44,14 +47,14 @@ Character &Character::operator=(const Character &other)
 			else
 				this->_inventory[i] = NULL;
 		}
-		std::cout << "Character assignment operator called" << std::endl;
+		// std::cout << "Character assignment operator called" << std::endl;
 	}
 	return *this;
 }
 
 Character::~Character()
 {
-	std::cout << "Character destructor called" << std::endl;
+	// std::cout << "Character destructor called" << std::endl;
 	for (int i = 0; i < 4; i++)
 	{
 		if (_inventory[i])
@@ -60,9 +63,9 @@ Character::~Character()
 	cleanFloor();
 }
 
-Character::Character(std::string name) : _name(name), _inventoryCount(0), _inventory()
+Character::Character(std::string name) : _name(name), _inventory(), _inventoryCount(0)
 {
-	std::cout << "Character parameterized constructor called" << std::endl;
+	// std::cout << "Character parameterized constructor called" << std::endl;
 }
 
 std::string const &Character::getName() const

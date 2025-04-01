@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:57:23 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 20:09:35 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 20:14:57 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "IMateriaSource.hpp"
 
-class MateriaSource
+class MateriaSource : public IMateriaSource
 {
 private:
 	AMateria *_storage[4];

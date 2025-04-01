@@ -6,14 +6,15 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:36:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 16:37:43 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 20:19:47 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ICHARACTER_HPP
 #define ICHARACTER_HPP
 
-#include "AMateria.hpp"
+class AMateria;
+#include <string>
 
 class ICharacter
 {

@@ -6,13 +6,16 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:58:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 20:13:18 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 20:26:18 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MateriaSource.hpp"
 
-MateriaSource::MateriaSource() : _storage(), _storageCount(0) { std::cout << "MateriaSource default constructor called" << std::endl; }
+MateriaSource::MateriaSource() : _storage(), _storageCount(0)
+{
+	// std::cout << "MateriaSource default constructor called" << std::endl;
+}
 
 MateriaSource::MateriaSource(const MateriaSource &other) : _storageCount(other.getStorageCount())
 {
@@ -40,7 +43,16 @@ MateriaSource &MateriaSource::operator=(const MateriaSource &other)
 	return *this;
 }
 
-MateriaSource::~MateriaSource() { std::cout << "MateriaSource destructor called" << std::endl; }
+MateriaSource::~MateriaSource()
+{
+	for (int i = 0; i < _storageCount; i++)
+	{
+		if (_storage[i])
+			delete _storage[i];
+	}
+	_storageCount = 0;
+	// std::cout << "MateriaSource destructor called" << std::endl;
+}
 
 AMateria *MateriaSource::getMateria(int index) const
 {
@@ -77,10 +89,14 @@ void MateriaSource::learnMateria(AMateria *m)
 	if (this->_storageCount < 4)
 	{
 		this->_storage[this->_storageCount] = m->clone();
+		delete m;
 		this->incrementStorageCount();
 	}
 	else
+	{
+		delete m;
 		std::cout << "MateriaSource storage is full" << std::endl;
+	}
 }
 
 AMateria *MateriaSource::createMateria(std::string const &type)
