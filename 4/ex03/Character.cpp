@@ -6,11 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 18:30:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 19:47:43 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
+
+AMateria *Character::_floor[MAX_MATERIA_FLOOR] = {};
+int Character::_floorMateriaCount = 0;
 
 Character::Character() : _name(""), _inventoryCount(0), _inventory() { std::cout << "Character default constructor called" << std::endl; }
 
@@ -54,6 +57,7 @@ Character::~Character()
 		if (_inventory[i])
 			delete _inventory[i];
 	}
+	cleanFloor();
 }
 
 Character::Character(std::string name) : _name(name), _inventoryCount(0), _inventory()
@@ -89,12 +93,30 @@ void Character::unequip(int idx)
 {
 	if (idx >= 0 && idx < 4 && _inventory[idx])
 	{
-		std::cout << "Unequipped " << _inventory[idx]->getType() << " from slot " << idx << std::endl;
-		_inventory[idx] = NULL;
-		decreaseInventoryCount();
+		if (_floorMateriaCount < MAX_MATERIA_FLOOR)
+		{
+			_floor[_floorMateriaCount++] = _inventory[idx];
+			std::cout << "Unequipped " << _inventory[idx]->getType() << " from slot " << idx << std::endl;
+			_inventory[idx] = NULL;
+			decreaseInventoryCount();
+		}
+		else
+			std::cout << "Cannot unequip: Floor is full of Materias" << std::endl;
 	}
 	else
 		std::cout << "Cannot unequip: Invalid index or slot is empty" << std::endl;
+}
+
+void Character::use(int idx, ICharacter &target)
+{
+	if (idx >= 0 && idx < 4 && _inventory[idx])
+	{
+		std::cout << this->getName() << " ";
+		_inventory[idx]->use(target);
+		std::cout << std::endl;
+	}
+	else
+		std::cout << "Cannot use: Invalid index or slot is empty" << std::endl;
 }
 
 void Character::setName(std::string name)
@@ -148,4 +170,14 @@ void Character::decreaseInventoryCount()
 		_inventoryCount--;
 	else
 		std::cout << "Inventory is empty" << std::endl;
+}
+
+void Character::cleanFloor()
+{
+	for (int i = 0; i < _floorMateriaCount; i++)
+	{
+		delete _floor[i];
+		_floor[i] = NULL;
+	}
+	_floorMateriaCount = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:53:20 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 18:21:12 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/01 19:40:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ private:
 	std::string _name;
 	AMateria *_inventory[4];
 	int _inventoryCount;
+	static const int MAX_MATERIA_FLOOR = 100;
+	static AMateria *_floor[MAX_MATERIA_FLOOR];
+	static int _floorMateriaCount;
 
 public:
 	Character();
@@ -41,6 +44,8 @@ public:
 	int getInventoryCount() const;
 	void increaseInventoryCount();
 	void decreaseInventoryCount();
+
+	static void cleanFloor();
 };
 
 #endif
