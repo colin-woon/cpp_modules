@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:00:05 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/03 16:14:01 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 16:27:31 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 // the construction process always starts with the base class(es) and proceeds towards the derived class.
 // This is because the derived class object contains the base class object(s),
 // and the base class part must be initialized before the derived class can build upon it.
-// DiamondTrap::DiamondTrap() : ClapTrap("_clap_name", 100), ScavTrap(), FragTrap() { std::cout << "Unnamed is type DiamondTrap" << std::endl; }
+DiamondTrap::DiamondTrap() : ClapTrap("_clap_name", 100), ScavTrap(), FragTrap(), _name("")
+{
+	std::cout << "Unnamed is type DiamondTrap" << std::endl;
+}
 
-DiamondTrap::DiamondTrap(const DiamondTrap &other) : ClapTrap(other.getName() + "_clap_name", 100), ScavTrap(other), FragTrap(other)
+DiamondTrap::DiamondTrap(const DiamondTrap &other) : ClapTrap(other.getName() + "_clap_name", 100), ScavTrap(other), FragTrap(other), _name(other.getName())
 {
 	setHitPoints(other.getHitPoints());
 	setEnergyPoints(other.getEnergyPoints());
@@ -40,6 +43,8 @@ DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other)
 }
 
 DiamondTrap::~DiamondTrap() { std::cout << "DiamondTrap is destroyed" << std::endl; }
+
+std::string DiamondTrap::getName() const { return _name; }
 
 DiamondTrap::DiamondTrap(const std::string &name) : ClapTrap(name + "_clap_name", 100), ScavTrap(name), FragTrap(name), _name(name)
 {

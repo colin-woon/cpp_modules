@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:00:09 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/03 16:08:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 16:26:42 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ public:
 	DiamondTrap &operator=(const DiamondTrap &other);
 	~DiamondTrap();
 
+	std::string getName() const;
 	DiamondTrap(const std::string &name);
 	void whoAmI();
 	void attack(const std::string &target);
