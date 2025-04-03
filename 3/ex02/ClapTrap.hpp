@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:10 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 19:17:53 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 15:24:15 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ private:
 	unsigned int _hitPoints;
 	unsigned int _energyPoints;
 	unsigned int _attackDamage;
+	unsigned int _maxHitPoints;
+
+protected:
+	void useEnergyPoints();
+	void reduceHitPoints(unsigned int damageAmount);
+	void increaseHitPoints(unsigned int repairAmount);
 
 public:
 	ClapTrap();
@@ -40,12 +46,8 @@ public:
 	void setEnergyPoints(unsigned int energyPoints);
 	void setAttackDamage(unsigned int attackDamage);
 
-	void useEnergyPoints();
-	void reduceHitPoints(unsigned int damageAmount);
-	void increaseHitPoints(unsigned int repairAmount);
-
-	ClapTrap(const std::string &name);
-	void attack(const std::string &target);
+	ClapTrap(const std::string &name, unsigned int max_health);
+	virtual void attack(const std::string &target);
 	void takeDamage(unsigned int amount);
 	void beRepaired(unsigned int amount);
 };
