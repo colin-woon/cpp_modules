@@ -6,16 +6,13 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/03 14:39:56 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:56:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-unsigned int const ClapTrap::_maxHitPoints = 10;
-unsigned int const ClapTrap::_maxEnergyPoints = 10;
-
-ClapTrap::ClapTrap() : _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+ClapTrap::ClapTrap() : _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0), _maxHitPoints(10)
 {
 	std::cout << "Unnamed ClapTrap is created" << std::endl;
 }
@@ -81,7 +78,7 @@ void ClapTrap::increaseHitPoints(unsigned int repairAmount)
 	return;
 }
 
-ClapTrap::ClapTrap(const std::string &name) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+ClapTrap::ClapTrap(const std::string &name, unsigned int max_health) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0), _maxHitPoints(max_health)
 {
 	std::cout << "ClapTrap " << this->getName() << " is created" << std::endl;
 }

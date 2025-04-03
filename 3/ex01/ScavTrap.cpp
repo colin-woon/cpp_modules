@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:59:46 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 15:31:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 15:18:30 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &other)
 
 ScavTrap::~ScavTrap() { std::cout << "ScavTrap is destroyed" << std::endl; }
 
-ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name)
+ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name, 100)
 {
 	this->setHitPoints(100);
 	this->setEnergyPoints(50);
@@ -41,14 +41,14 @@ ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name)
 
 void ScavTrap::attack(const std::string &target)
 {
-	if (this->getEnergyPoints() == 0)
-	{
-		std::cout << "ClapTrap " << this->getName() << " has no energy points left to attack!" << std::endl;
-		return;
-	}
 	if (this->getHitPoints() == 0)
 	{
-		std::cout << "ClapTrap " << this->getName() << " is dead and cannot attack!" << std::endl;
+		std::cout << "ScavTrap " << this->getName() << " is dead and cannot attack!" << std::endl;
+		return;
+	}
+	if (this->getEnergyPoints() == 0)
+	{
+		std::cout << "ScavTrap " << this->getName() << " has no energy points left to attack!" << std::endl;
 		return;
 	}
 	this->useEnergyPoints();

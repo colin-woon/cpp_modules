@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 19:16:11 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 15:20:15 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,22 @@ int main()
 	copy.attack("Target");
 	copy.guardGate();
 
-	std::cout << "\n=== Test EXTRA: ScavTrap destructor test using new===" << std::endl;
+	// ScavTrap object created on heap, stored in a ClapTrap pointer
+	// Without virtual keyword in Claptrap destructor:
+	// -	only the claptrap destructor will be called
+	// - 	the ScavTrap destructor will not be called,
+	// 		potentially causing a memory leak if ScavTrap has dynamic memory allocation
+	// With virtual keyword in Claptrap destructor:
+	// -	The compiler uses the virtual function table (vtable)
+	// 		to determine the actual type of the object being pointed to.
+	// -	The correct destructor (ScavTrap destructor) will be called first,
+	// 		followed by the ClapTrap destructor.
+	// -	This ensures that any resources allocated by the ScavTrap class are properly released.
+	std::cout << "\n=== Test 16: ScavTrap destructor test using new===" << std::endl;
 	ClapTrap *heapScav = new ScavTrap("HeapScav");
+	heapScav->attack("Target");
 	delete heapScav;
+	std::cout << std::endl;
 
 	return 0;
 }
