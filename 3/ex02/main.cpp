@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 19:21:08 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 15:29:06 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int main()
 	std::cout << "\n=== Test EXTRA: FragTrap destructor test using new===" << std::endl;
 	ClapTrap *heapFrag = new FragTrap("HeapFrag");
 	delete heapFrag;
+	std::cout << std::endl;
 
 	return 0;
 }

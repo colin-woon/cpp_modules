@@ -19,7 +19,7 @@ FragTrap &FragTrap::operator=(const FragTrap &other)
 
 FragTrap::~FragTrap() { std::cout << "FragTrap is destroyed" << std::endl; }
 
-FragTrap::FragTrap(const std::string &name) : ClapTrap(name)
+FragTrap::FragTrap(const std::string &name) : ClapTrap(name, 100)
 {
 	this->setHitPoints(100);
 	this->setEnergyPoints(100);
