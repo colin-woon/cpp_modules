@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/03 14:27:07 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:41:32 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int main()
 	ClapTrap repairer("Repairer");
 	repairer.takeDamage(5);
 	repairer.beRepaired(3);
+	repairer.beRepaired(10);
+	repairer.beRepaired(10);
 
 	std::cout << "\n=== Test 8: beRepaired with 0 hit points ===" << std::endl;
 	ClapTrap cannotRepair("CannotRepair");

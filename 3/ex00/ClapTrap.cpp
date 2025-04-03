@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/03 14:29:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:39:48 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,11 @@ void ClapTrap::reduceHitPoints(unsigned int damageAmount)
 
 void ClapTrap::increaseHitPoints(unsigned int repairAmount)
 {
-	if (UINT_MAX - this->getHitPoints() < repairAmount)
-	{
-		std::cout << "Repairing " << this->getName() << " for " << repairAmount << " HP would cause an overflow error!" << std::endl;
-		return;
-	}
-	this->_hitPoints += repairAmount;
+	if (repairAmount + this->getHitPoints() > _maxHitPoints)
+		this->_hitPoints = _maxHitPoints;
+	else
+		this->_hitPoints += repairAmount;
+	return;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name), _hitPoints(_maxHitPoints), _energyPoints(_maxEnergyPoints), _attackDamage(0)
