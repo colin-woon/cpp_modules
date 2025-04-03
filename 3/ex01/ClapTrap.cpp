@@ -6,11 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:13 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 18:53:44 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:39:56 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
+
+unsigned int const ClapTrap::_maxHitPoints = 10;
+unsigned int const ClapTrap::_maxEnergyPoints = 10;
 
 ClapTrap::ClapTrap() : _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
@@ -71,12 +74,11 @@ void ClapTrap::reduceHitPoints(unsigned int damageAmount)
 
 void ClapTrap::increaseHitPoints(unsigned int repairAmount)
 {
-	if (UINT_MAX - this->getHitPoints() < repairAmount)
-	{
-		std::cout << "Repairing " << this->getName() << " for " << repairAmount << " HP would cause an overflow error!" << std::endl;
-		return;
-	}
-	this->_hitPoints += repairAmount;
+	if (repairAmount + this->getHitPoints() > _maxHitPoints)
+		this->_hitPoints = _maxHitPoints;
+	else
+		this->_hitPoints += repairAmount;
+	return;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
@@ -86,18 +88,18 @@ ClapTrap::ClapTrap(const std::string &name) : _name(name), _hitPoints(10), _ener
 
 void ClapTrap::attack(const std::string &target)
 {
-	if (this->getEnergyPoints() == 0)
+	if (this->getHitPoints() == 0)
+	{
+		std::cout << "ClapTrap " << this->getName() << " is out of hit points and cannot attack!" << std::endl;
+		return;
+	}
+	else if (this->getEnergyPoints() == 0)
 	{
 		std::cout << "ClapTrap " << this->getName() << " has no energy points left to attack!" << std::endl;
 		return;
 	}
-	if (this->getHitPoints() == 0)
-	{
-		std::cout << "ClapTrap " << this->getName() << " is dead and cannot attack!" << std::endl;
-		return;
-	}
-	this->useEnergyPoints();
 	std::cout << "ClapTrap " << this->getName() << " attacks " << target << ", causing " << this->getAttackDamage() << " points of damage!" << std::endl;
+	this->useEnergyPoints();
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
@@ -122,12 +124,17 @@ void ClapTrap::beRepaired(unsigned int amount)
 		std::cout << "ClapTrap " << this->getName() << " is dead and cannot be repaired." << std::endl;
 		return;
 	}
-	if (this->getEnergyPoints() == 0)
+	else if (this->getEnergyPoints() == 0)
 	{
 		std::cout << "ClapTrap " << this->getName() << " has no energy points left to repair itself!" << std::endl;
 		return;
 	}
-	if (UINT_MAX - this->getHitPoints() < amount)
+	else if (this->getHitPoints() == _maxHitPoints)
+	{
+		std::cout << "ClapTrap " << this->getName() << " is already at maximum HP!" << std::endl;
+		return;
+	}
+	else if (UINT_MAX - this->getHitPoints() < amount)
 	{
 		std::cout << "Repairing " << this->getName() << " for " << amount << " HP would cause an overflow!" << std::endl;
 		return;
