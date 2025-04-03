@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 14:10:31 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:27:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ int main()
 	ClapTrap noEnergyRepair("NoEnergyRepair");
 	for (int i = 0; i < 10; ++i)
 	{
-		noEnergyRepair.beRepaired(1);
+		noEnergyRepair.attack("Someone");
 	}
 	noEnergyRepair.beRepaired(1);
 
 	std::cout << "\n=== Test 10: beRepaired with amount causing overflow ===" << std::endl;
 	ClapTrap overflow("Overflow");
+	overflow.takeDamage(5);
 	overflow.beRepaired(UINT_MAX);
 
 	return 0;
