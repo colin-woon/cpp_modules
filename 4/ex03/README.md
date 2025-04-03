@@ -22,8 +22,18 @@ The `MateriaSource` class serves as a "factory" for materias:
 - Creates new copies of previously learned materias
 - Returns NULL for unknown materia types
 
+This implementation follows
 ```
-This implementation follows the Factory Method pattern, centralizing object creation logic and hiding the instantiation details from client code.
+Factory Method pattern
+- Creates new materias based on type
+- Factory interface defines creation method
+- Concrete factory (MateriaSource) implements creation logic
+```
+```
+Prototype Pattern
+- Each concrete materia can clone itself
+- New instances created by copying prototypes
+- Used within the factory implementation
 ```
 
 ### Floor Management System
@@ -114,6 +124,28 @@ Demonstrates the importance of character reference counting:
 - Prevention of both premature deletion and memory leaks
 
 ## Implementation Highlights
+
+### Design Patterns
+The project implements a combination of two design patterns:
+
+#### Factory Method Pattern
+Through `IMateriaSource` and `MateriaSource`:
+- Defines interface for creating materias
+- Encapsulates creation logic in concrete factory
+- Allows flexible addition of new materia types
+- Centralizes object creation
+
+#### Prototype Pattern
+Through `AMateria`'s clone mechanism:
+- Each materia can create copies of itself
+- Used within factory implementation
+- Enables efficient object creation
+- Maintains proper type information
+
+These patterns work together:
+- Factory Method decides which prototype to use
+- Prototype handles the actual object creation
+- Combined approach provides both flexibility and efficiency
 
 ### Linked List for Floor Management
 - Allows unlimited floor capacity
