@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:50:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/17 20:09:38 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/03 16:17:37 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ int main()
 	std::cout << "\n=== Test EXTRA: DiamondTrap assigned with new keyword ===" << std::endl;
 	ClapTrap *heapDiamond = new DiamondTrap("HeapDiamond");
 	delete heapDiamond;
+	std::cout << std::endl;
 
 	return 0;
 }
