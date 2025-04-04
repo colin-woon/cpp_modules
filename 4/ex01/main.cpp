@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:51:11 by cwoon             #+#    #+#             */
-/*   Updated: 2025/03/31 22:38:32 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/04 15:30:26 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main()
 		animals[i] = new Cat();
 	}
 
-	// To trigger double deletion to prove deep and shallow copy, remove the delete _brain command in the Dog or Cat copy assignment operator.
+	// To trigger double deletion to prove deep and shallow copy, remove the delete _brain command in the Dog or Cat copy constructor.
 	std::cout << "\n=== Testing Deep Copy for Dog ===" << std::endl;
 	{
 		Dog originalDog;
@@ -86,6 +86,19 @@ int main()
 	{
 		delete animals[i]; // Should call appropriate destructors
 	}
+
+	// To trigger leak, remove delete _brain in assignment operator
+	std::cout << "\n=== Testing Deep Copy for Dog involving Brain===" << std::endl;
+	Dog dog1;
+    Dog dog2;
+
+	dog2 = dog1;
+
+	std::cout << "\n=== Testing Deep Copy for Cat involving Brain===" << std::endl;
+	Cat Cat1;
+    Cat Cat2;
+
+	Cat2 = Cat1;
 
 	return 0;
 }
