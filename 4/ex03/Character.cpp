@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:02:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 23:47:41 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/04 15:38:48 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ Character::FloorNode *Character::_floorHead = NULL;
 Character::FloorNode *Character::_floorTail = NULL;
 int Character::_characterCount = 0;
 bool Character::_isLastCharacter = false;
+
+Character::FloorNode::FloorNode(AMateria *m) : materia(m), next(NULL) {}
 
 Character::Character() : _name(""), _inventory(), _inventoryCount(0)
 {

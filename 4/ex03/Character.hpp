@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:53:20 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 23:40:25 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/04 15:39:19 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ private:
 	{
 		AMateria *materia;
 		FloorNode *next;
-		FloorNode(AMateria *m) : materia(m), next(NULL) {}
+		FloorNode(AMateria *m);
 	};
 	static FloorNode *_floorHead;
 	static FloorNode *_floorTail;

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:58:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/01 20:26:18 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/04 16:08:50 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,22 @@ void MateriaSource::decrementStorageCount()
 	else
 		std::cout << "MateriaSource storage is empty" << std::endl;
 }
+
+/**
+ * @brief Learns a new Materia by storing its clone in source's storage
+ *
+ * @param m Pointer to AMateria to learn (will be deleted)
+ *
+ * @note Storage limited to 4 Materias
+ * @note Original Materia is deleted after cloning
+ * @warning DO NOT use this pattern:
+ *    AMateria* ice = new Ice();
+ *    materia_source.learnMateria(ice);
+ *    delete ice;  // WRONG: Double deletion, ice is already deleted in learnMateria
+ *
+ * Example of correct usage:
+ *    src->learnMateria(new Ice());  // Ice cloned and original deleted
+ */
 
 void MateriaSource::learnMateria(AMateria *m)
 {
