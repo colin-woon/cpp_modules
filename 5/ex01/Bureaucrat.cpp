@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/05 16:16:23 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/05 17:35:55 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,17 @@ std::ostream &operator<<(std::ostream &out, Bureaucrat const &value)
 {
 	out << value.getName() << ", bureaucrat grade " << value.getGrade();
 	return out;
+}
+
+void Bureaucrat::signForm(Form &form) const
+{
+	try
+	{
+		form.beSigned(*this);
+		std::cout << *this << " signed " << form.getName() << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << *this << " couldn't sign " << form.getName() << " because " << e.what() << std::endl;
+	}
 }
