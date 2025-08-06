@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/06 17:07:18 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/06 17:24:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,28 @@ std::ostream &operator<<(std::ostream &out, Bureaucrat const &value)
 	return out;
 }
 
-void Bureaucrat::signAForm(AForm &AForm) const
+void Bureaucrat::signAForm(AForm &form) const
 {
 	try
 	{
-		AForm.beSigned(*this);
-		std::cout << *this << " signed " << AForm.getName() << std::endl;
+		form.beSigned(*this);
+		std::cout << *this << " signed " << form.getName() << std::endl;
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << *this << " couldn't sign " << AForm.getName() << " because " << e.what() << std::endl;
+		std::cerr << *this << " couldn't sign " << form.getName() << " because " << e.what() << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(AForm const &form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << *this << " executed " << form << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << *this << " cannot execute form because " << e.what() << std::endl;
 	}
 }

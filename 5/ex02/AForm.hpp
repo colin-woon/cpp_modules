@@ -37,10 +37,11 @@ public:
 	int getGradeToSign() const;
 	int getGradeToExecute() const;
 
-	virtual void execute(Bureaucrat const &executor) const = 0;
 	void beSigned(const Bureaucrat &bureaucrat);
+
+	virtual void execute(Bureaucrat const &executor) const = 0;
 };
 
-std::ostream &operator<<(std::ostream &out, const AForm &AForm);
+std::ostream &operator<<(std::ostream &out, const AForm &form);
 
 #endif

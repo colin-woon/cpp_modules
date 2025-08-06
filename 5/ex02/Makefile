@@ -4,9 +4,9 @@ FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
 NAME = bureaucrat
-SRCS = main.cpp Bureaucrat.cpp AForm.cpp
+SRCS = main.cpp Bureaucrat.cpp AForm.cpp PresidentialPardonForm.cpp RobotomyRequestForm.cpp ShrubberyCreationForm.cpp
 OBJS = $(SRCS:.cpp=.o)
-INC = Bureaucrat.hpp AForm.hpp
+INC = Bureaucrat.hpp AForm.hpp PresidentialPardonForm.hpp RobotomyRequestForm.hpp ShrubberyCreationForm.hpp
 
 all: $(NAME)
 
