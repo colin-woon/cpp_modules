@@ -1,21 +1,27 @@
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm() : AForm("Default RobotomyRequestForm", 72, 45) {}
+RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 72, 45), _target("None") {}
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &other) : AForm(other) {}
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &other) : AForm(other), _target(other.getTarget()) {}
 
 RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &other)
 {
 	if (this != &other)
 	{
 		AForm::operator=(other);
+		this->_target = other.getTarget();
 	}
 	return *this;
 }
 
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
-RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm(target, 72, 45) {}
+RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), _target(target) {}
+
+std::string RobotomyRequestForm::getTarget() const
+{
+	return this->_target;
+}
 
 void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
@@ -32,7 +38,7 @@ void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 	std::cout << "BZZZZZZZTTTTTT... drilling noises..." << std::endl;
 
 	if (std::rand() % 2 == 0)
-		std::cout << this->getName() << " has been robotomized successfully and cured from being restarted!" << std::endl;
+		std::cout << this->getTarget() << " has been robotomized successfully and cured from being restarted!" << std::endl;
 	else
 		std::cout << "Robotomy failed." << std::endl;
 }
