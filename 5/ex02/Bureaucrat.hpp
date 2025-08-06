@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:23 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/05 17:46:29 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/06 17:08:50 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #define BUREAUCRAT_HPP
 
 #include <iostream>
-#include "Form.hpp"
+#include "AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -50,7 +50,9 @@ public:
 
 	const std::string &getName() const;
 
-	void signForm(Form &form) const;
+	void signAForm(AForm &AForm) const;
+
+	void executeAForm(AForm const &AForm);
 };
 
 std::ostream &operator<<(std::ostream &out, Bureaucrat const &value);
