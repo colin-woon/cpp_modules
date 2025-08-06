@@ -1,13 +1,20 @@
-#ifndef ROBOTOMYREQUESTAForm_HPP
-#define ROBOTOMYREQUESTAForm_HPP
+#ifndef ROBOTOMYREQUESTFORM_HPP
+#define ROBOTOMYREQUESTFORM_HPP
 
-class RobotomyRequestAForm
+#include "AForm.hpp"
+#include <cstdlib>
+#include <ctime>
+
+class RobotomyRequestForm : public AForm
 {
 public:
-	RobotomyRequestAForm();
-	RobotomyRequestAForm(const RobotomyRequestAForm &other);
-	RobotomyRequestAForm &operator=(const RobotomyRequestAForm &other);
-	~RobotomyRequestAForm();
+	RobotomyRequestForm();
+	RobotomyRequestForm(const RobotomyRequestForm &other);
+	RobotomyRequestForm &operator=(const RobotomyRequestForm &other);
+	~RobotomyRequestForm();
+
+	RobotomyRequestForm(std::string target);
+	void execute(Bureaucrat const &executor) const;
 };
 
 #endif
