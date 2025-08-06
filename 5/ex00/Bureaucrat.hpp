@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:23 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/05 16:18:05 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:31:36 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ public:
 	class GradeTooHighException : public std::exception
 	{
 	public:
-		virtual const char *what() const throw();
+		const char *what() const throw();
 	};
 	class GradeTooLowException : public std::exception
 	{
 	public:
-		virtual const char *what() const throw();
+		const char *what() const throw();
 	};
 
 	int getGrade() const;
