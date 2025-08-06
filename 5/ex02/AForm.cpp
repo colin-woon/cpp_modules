@@ -25,12 +25,17 @@ AForm::AForm(std::string name, int gradeToSign, int gradeToExecute) : _name(name
 
 const char *AForm::GradeTooHighException::what() const throw()
 {
-	return "AForm Grade is too high!";
+	return "Form Grade is too high!";
 }
 
 const char *AForm::GradeTooLowException::what() const throw()
 {
-	return "Grade too low to sign AForm!";
+	return "Grade too low to perform action on form!";
+}
+
+const char *AForm::UnsignedFormException::what() const throw()
+{
+	return "Form is not signed!";
 }
 
 const std::string &AForm::getName() const

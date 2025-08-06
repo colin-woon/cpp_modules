@@ -1,13 +1,19 @@
-#ifndef SHRUBBERYCREATIONAForm_HPP
-#define SHRUBBERYCREATIONAForm_HPP
+#ifndef SHRUBBERYCREATIONFORM_HPP
+#define SHRUBBERYCREATIONFORM_HPP
 
-class ShrubberyCreationAForm
+#include "AForm.hpp"
+#include <fstream>
+
+class ShrubberyCreationForm : public AForm
 {
 public:
-	ShrubberyCreationAForm();
-	ShrubberyCreationAForm(const ShrubberyCreationAForm &other);
-	ShrubberyCreationAForm &operator=(const ShrubberyCreationAForm &other);
-	~ShrubberyCreationAForm();
+	ShrubberyCreationForm();
+	ShrubberyCreationForm(const ShrubberyCreationForm &other);
+	ShrubberyCreationForm &operator=(const ShrubberyCreationForm &other);
+	~ShrubberyCreationForm();
+
+	ShrubberyCreationForm(std::string target);
+	void execute(Bureaucrat const &executor) const;
 };
 
 #endif
