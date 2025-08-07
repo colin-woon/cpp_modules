@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/05 17:53:44 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/07 17:16:55 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,9 @@ void testSignForm()
 	Bureaucrat lowBureau("Tom", 150);
 	Form highForm("highForm", 1, 1);
 
-	highBureau.signForm(highForm);
+	std::cout << highForm << std::endl;
 	lowBureau.signForm(highForm);
+	highBureau.signForm(highForm);
 }
 
 int main()
