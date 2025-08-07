@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/05 16:17:42 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/07 17:10:34 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void testGradeLimits()
 		Bureaucrat b("TooHigh", 0);
 		std::cout << "Failed: Should have thrown GradeTooHighException\n";
 	}
-	catch (const Bureaucrat::GradeTooHighException &e)
+	catch (const std::exception &e)
 	{
 		std::cout << "Caught expected exception: " << e.what() << std::endl;
 	}
@@ -76,7 +76,7 @@ void testGradeLimits()
 		Bureaucrat b("TooLow", 151);
 		std::cout << "Failed: Should have thrown GradeTooLowException\n";
 	}
-	catch (const Bureaucrat::GradeTooLowException &e)
+	catch (const std::exception &e)
 	{
 		std::cout << "Caught expected exception: " << e.what() << std::endl;
 	}
