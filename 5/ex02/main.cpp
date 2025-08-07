@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/06 19:41:14 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/07 17:21:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void testShrubberyForm()
 	ShrubberyCreationForm form("test");
 
 	sam.executeForm(form);
-	sam.signAForm(form);
+	sam.signForm(form);
 	somedude.executeForm(form);
 	sam.executeForm(form);
 }
@@ -34,7 +34,7 @@ void testRobotomyForm()
 	RobotomyRequestForm form("test");
 
 	sam.executeForm(form);
-	sam.signAForm(form);
+	sam.signForm(form);
 	somedude.executeForm(form);
 	sam.executeForm(form);
 }
@@ -46,15 +46,15 @@ void testPresidentialForm()
 	PresidentialPardonForm form("test");
 
 	sam.executeForm(form);
-	sam.signAForm(form);
+	sam.signForm(form);
 	somedude.executeForm(form);
 	sam.executeForm(form);
 }
 
 int main()
 {
-	// testShrubberyForm();
-	// testRobotomyForm();
+	testShrubberyForm();
+	testRobotomyForm();
 	testPresidentialForm();
 	return 0;
 }

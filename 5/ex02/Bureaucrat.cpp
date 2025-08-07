@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/06 18:07:46 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/07 17:21:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ std::ostream &operator<<(std::ostream &out, Bureaucrat const &value)
 	return out;
 }
 
-void Bureaucrat::signAForm(AForm &form) const
+void Bureaucrat::signForm(AForm &form) const
 {
 	try
 	{

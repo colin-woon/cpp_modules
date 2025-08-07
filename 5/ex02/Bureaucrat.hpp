@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:16:23 by cwoon             #+#    #+#             */
-/*   Updated: 2025/08/06 19:31:50 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/08/07 17:21:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ public:
 
 	const std::string &getName() const;
 
-	void signAForm(AForm &form) const;
+	void signForm(AForm &form) const;
 
 	void executeForm(AForm const &form);
 };
