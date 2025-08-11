@@ -25,10 +25,13 @@ struct myTypes
 	bool isInfinity;
 	bool isNegative;
 	bool isNonDisplayable;
+	bool hasDecimal;
+	bool isDone;
 };
 
 void printOutput(myTypes result)
 {
+	result.isDone = true;
 	if (result.isNan)
 	{
 		std::cout << "char: impossible" << std::endl;
@@ -59,8 +62,11 @@ void printOutput(myTypes result)
 		else
 			std::cout << "char: '" << result.tempC << "'" << std::endl;
 		std::cout << "int: " << result.tempI << std::endl;
-		std::cout << "float: " << result.tempF << std::endl;
-		std::cout << "double: " << result.tempD << std::endl;
+		if (!result.hasDecimal)
+		{
+			std::cout << "float: " << std::fixed << std::setprecision(1) << result.tempF << "f" << std::endl;
+			std::cout << "double: " << std::fixed << std::setprecision(1) << result.tempD << std::endl;
+		}
 	}
 }
 
@@ -92,9 +98,38 @@ void tryChar(const std::string &input, myTypes &result)
 	}
 }
 
+void tryInt(const std::string &input, myTypes &result)
+{
+	if (input.find('.') != std::string::npos)
+	{
+		result.hasDecimal = true;
+		return;
+	}
+	else
+	{
+		char *end_ptr;
+
+		long longNum = strtol(input.c_str(), &end_ptr, 10);
+		printf("end_ptr is %s\n", end_ptr);
+		if (*end_ptr != '\0' || longNum > INT_MAX || longNum < INT_MIN)
+			result.isNan = true;
+		else
+		{
+			result.tempC = static_cast<char>(longNum);
+			result.isNonDisplayable = (longNum < 0 || longNum > 127 || !isprint(result.tempC));
+			result.tempI = static_cast<int>(longNum);
+			result.tempF = static_cast<float>(longNum);
+			result.tempD = static_cast<double>(longNum);
+		}
+		printOutput(result);
+		return;
+	}
+}
+
 void ScalarConverter::convert(const std::string &input)
 {
-	myTypes result;
+	myTypes result = {};
 
-	tryChar(input, result);
+	// tryChar(input, result);
+	tryInt(input, result);
 }
