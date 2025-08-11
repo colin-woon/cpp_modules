@@ -26,5 +26,7 @@ echo
 ./convert -66
 echo
 ./convert 66
+echo
+./convert 9999999999999999999999
 
 make fclean
