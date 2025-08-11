@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#include <cerrno>
 #include <iostream>
 #include <iomanip>
 #include <cctype>

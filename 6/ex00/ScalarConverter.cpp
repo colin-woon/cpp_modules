@@ -110,8 +110,8 @@ void tryInt(const std::string &input, myTypes &result)
 		char *end_ptr;
 
 		long longNum = strtol(input.c_str(), &end_ptr, 10);
-		printf("end_ptr is %s\n", end_ptr);
-		if (*end_ptr != '\0' || longNum > INT_MAX || longNum < INT_MIN)
+		errno = 0;
+		if (*end_ptr != '\0' || longNum > INT_MAX || longNum < INT_MIN || errno == ERANGE)
 			result.isNan = true;
 		else
 		{
@@ -132,4 +132,7 @@ void ScalarConverter::convert(const std::string &input)
 
 	// tryChar(input, result);
 	tryInt(input, result);
+	if (result.hasDecimal)
+	{
+	}
 }
