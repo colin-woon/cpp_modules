@@ -26,7 +26,9 @@ struct myTypes
 	bool isNegative;
 	bool isNonDisplayable;
 	bool hasDecimal;
+	bool isFloat;
 	bool isDone;
+	int precisionValue;
 };
 
 void printOutput(myTypes result)
@@ -62,11 +64,8 @@ void printOutput(myTypes result)
 		else
 			std::cout << "char: '" << result.tempC << "'" << std::endl;
 		std::cout << "int: " << result.tempI << std::endl;
-		if (!result.hasDecimal)
-		{
-			std::cout << "float: " << std::fixed << std::setprecision(1) << result.tempF << "f" << std::endl;
-			std::cout << "double: " << std::fixed << std::setprecision(1) << result.tempD << std::endl;
-		}
+		std::cout << "float: " << std::fixed << std::setprecision(result.precisionValue) << result.tempF << "f" << std::endl;
+		std::cout << "double: " << std::fixed << std::setprecision(result.precisionValue) << result.tempD << std::endl;
 	}
 }
 
@@ -108,7 +107,6 @@ void tryInt(const std::string &input, myTypes &result)
 	else
 	{
 		char *end_ptr;
-
 		long longNum = strtol(input.c_str(), &end_ptr, 10);
 		errno = 0;
 		if (*end_ptr != '\0' || longNum > INT_MAX || longNum < INT_MIN || errno == ERANGE)
@@ -126,13 +124,73 @@ void tryInt(const std::string &input, myTypes &result)
 	}
 }
 
+void setPrecision(const std::string &input, myTypes &result)
+{
+	int decimalPos = input.find('.');
+	int end = input.size();
+	if (input[input.length() - 1] == 'f')
+		end = end - 1;
+	result.precisionValue = end - decimalPos - 1;
+	if (result.precisionValue < 1)
+		result.precisionValue = 1;
+}
+
+void tryDouble(const std::string &input, myTypes &result)
+{
+	if (result.hasDecimal)
+	{
+		char *end_ptr;
+		errno = 0;
+		result.tempD = strtod(input.c_str(), &end_ptr);
+		if (*end_ptr != '\0' || errno == ERANGE)
+		{
+			if (*end_ptr == 'f' && *(end_ptr + 1) == '\0')
+			{
+				result.isFloat = true;
+				return;
+			}
+			result.isNan = true;
+		}
+		else
+		{
+			result.tempC = static_cast<char>(result.tempD);
+			result.isNonDisplayable = (result.tempD < 0 || result.tempD > 127 || !isprint(result.tempC));
+			result.tempI = static_cast<int>(result.tempD);
+			result.tempF = static_cast<float>(result.tempD);
+			setPrecision(input, result);
+		}
+		printOutput(result);
+	}
+}
+
+void tryFloat(const std::string &input, myTypes &result)
+{
+	if (result.isFloat)
+	{
+		char *end_ptr;
+		errno = 0;
+		if (errno == ERANGE)
+			result.isNan = true;
+		else
+		{
+			result.tempF = strtof(input.c_str(), &end_ptr);
+			result.tempC = static_cast<char>(result.tempF);
+			result.isNonDisplayable = (result.tempF < 0 || result.tempF > 127 || !isprint(result.tempC));
+			result.tempI = static_cast<int>(result.tempF);
+			result.tempD = static_cast<double>(result.tempF);
+			setPrecision(input, result);
+		}
+		printOutput(result);
+	}
+}
+
 void ScalarConverter::convert(const std::string &input)
 {
 	myTypes result = {};
+	result.precisionValue = 1;
 
 	// tryChar(input, result);
 	tryInt(input, result);
-	if (result.hasDecimal)
-	{
-	}
+	tryDouble(input, result);
+	tryFloat(input, result);
 }
