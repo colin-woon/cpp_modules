@@ -1,18 +1,18 @@
 make
 
-# echo "-------CHAR TEST-------"
-# ./convert "'"
-# echo
-# ./convert "'7'"
-# echo
-# ./convert a
-# echo
-# ./convert z
-# echo
-# ./convert '#'
-# echo
-# ./convert "$(printf "\007")"
-# echo "-------END-------"
+echo "-------CHAR TEST-------"
+./convert "'"
+echo
+./convert "'7'"
+echo
+./convert a
+echo
+./convert z
+echo
+./convert '#'
+echo
+./convert "$(printf "\007")"
+echo "-------END-------"
 
 echo "-------INT TEST-------"
 ./convert -2147483648
@@ -60,6 +60,20 @@ echo
 ./convert 43.66f
 echo
 ./convert 4a3.6a6f
+echo "-------END-------"
+
+echo "-------PSEUDO LITERALS-------"
+./convert -inff
+echo
+./convert +inff
+echo
+./convert nanf
+echo
+./convert -inf
+echo
+./convert +inf
+echo
+./convert nan
 echo "-------END-------"
 
 make fclean

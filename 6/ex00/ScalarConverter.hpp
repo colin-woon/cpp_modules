@@ -1,8 +1,6 @@
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
-#include <stdio.h>
-
 #include <cerrno>
 #include <iostream>
 #include <iomanip>

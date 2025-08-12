@@ -179,11 +179,11 @@ void tryFloat(const std::string &input, myTypes &result)
 	{
 		char *end_ptr;
 		errno = 0;
+		result.tempF = strtof(input.c_str(), &end_ptr);
 		if (errno == ERANGE)
 			result.isNan = true;
 		else
 		{
-			result.tempF = strtof(input.c_str(), &end_ptr);
 			result.tempC = static_cast<char>(result.tempF);
 			result.isNonDisplayable = (result.tempF < 0 || result.tempF > 127 || !isprint(result.tempC));
 			result.tempI = static_cast<int>(result.tempF);
@@ -194,25 +194,43 @@ void tryFloat(const std::string &input, myTypes &result)
 	}
 }
 
+void tryPseudoLiterals(const std::string &input, myTypes &result)
+{
+	if (input == "-inff" || input == "+inff" || input == "nanf" ||
+		input == "-inf" || input == "+inf" || input == "nan")
+	{
+		result.isNan = true;
+		if (input[0] == '-')
+			result.isNegative = true;
+		if (input.find("inf") != std::string::npos)
+			result.isInfinity = true;
+		printOutput(result);
+		return;
+	}
+}
+
 void ScalarConverter::convert(const std::string &input)
 {
 	myTypes result = {};
 	result.precisionValue = 1;
 
-	for (int tries = 0; tries < 4 && !result.isDone; tries++)
+	for (int tries = 0; tries < 5 && !result.isDone; tries++)
 	{
 		switch (tries)
 		{
 		case 0:
-			tryChar(input, result);
+			tryPseudoLiterals(input, result);
 			break;
 		case 1:
-			tryInt(input, result);
+			tryChar(input, result);
 			break;
 		case 2:
-			tryDouble(input, result);
+			tryInt(input, result);
 			break;
 		case 3:
+			tryDouble(input, result);
+			break;
+		case 4:
 			tryFloat(input, result);
 			break;
 		}
