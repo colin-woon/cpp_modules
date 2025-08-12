@@ -31,7 +31,7 @@ struct myTypes
 	int precisionValue;
 };
 
-void printOutput(myTypes result)
+void printOutput(myTypes &result)
 {
 	result.isDone = true;
 	if (result.isNan)
@@ -99,6 +99,16 @@ void tryChar(const std::string &input, myTypes &result)
 
 void tryInt(const std::string &input, myTypes &result)
 {
+	if (input.length() == 1 && std::isdigit(input[0]))
+	{
+		result.tempC = static_cast<char>(result.tempI);
+		result.isNonDisplayable = (!isprint(result.tempC));
+		result.tempI = static_cast<int>(input[0]);
+		result.tempF = static_cast<float>(result.tempI);
+		result.tempD = static_cast<double>(result.tempI);
+		printOutput(result);
+		return;
+	}
 	if (input.find('.') != std::string::npos)
 	{
 		result.hasDecimal = true;
@@ -189,7 +199,7 @@ void ScalarConverter::convert(const std::string &input)
 	myTypes result = {};
 	result.precisionValue = 1;
 
-	// tryChar(input, result);
+	tryChar(input, result);
 	tryInt(input, result);
 	tryDouble(input, result);
 	tryFloat(input, result);
