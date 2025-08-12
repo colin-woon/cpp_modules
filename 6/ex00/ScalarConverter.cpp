@@ -199,8 +199,27 @@ void ScalarConverter::convert(const std::string &input)
 	myTypes result = {};
 	result.precisionValue = 1;
 
-	tryChar(input, result);
-	tryInt(input, result);
-	tryDouble(input, result);
-	tryFloat(input, result);
+	for (int tries = 0; tries < 4 && !result.isDone; tries++)
+	{
+		switch (tries)
+		{
+		case 0:
+			tryChar(input, result);
+			break;
+		case 1:
+			tryInt(input, result);
+			break;
+		case 2:
+			tryDouble(input, result);
+			break;
+		case 3:
+			tryFloat(input, result);
+			break;
+		}
+	}
+	if (!result.isDone)
+	{
+		result.isNan = true;
+		printOutput(result);
+	}
 }
