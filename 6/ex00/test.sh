@@ -27,6 +27,8 @@ echo
 echo
 ./convert 66
 echo
+./convert 6
+echo
 ./convert 9999999999999999999999
 echo "-------END-------"
 
@@ -44,6 +46,8 @@ echo
 ./convert 43.66
 echo
 ./convert 4a3.6a6
+echo
+./convert 9999999999999999999999.999999999999999999
 echo "-------END-------"
 
 echo "-------FLOAT TESTS-------"
@@ -60,6 +64,8 @@ echo
 ./convert 43.66f
 echo
 ./convert 4a3.6a6f
+echo
+./convert 9999999999999999999999.999999999999999999f
 echo "-------END-------"
 
 echo "-------PSEUDO LITERALS-------"
