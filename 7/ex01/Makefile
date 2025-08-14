@@ -4,10 +4,10 @@ CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN)
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
-NAME = whatever
+NAME = iter
 SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
-INC = whatever.hpp
+INC = iter.hpp
 
 all: $(NAME)
 
