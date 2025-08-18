@@ -7,7 +7,7 @@ RM = rm -rf
 NAME = array
 SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
-INC = Array.hpp
+INC = Array.hpp iter.hpp
 
 all: $(NAME)
 
