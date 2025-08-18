@@ -10,24 +10,26 @@ class Array
 
 private:
 	T *_array;
-	unsigned int _size;
+	unsigned int _numOfElements;
 
 public:
-	Array() : _array(NULL), _size(0) {};
-	Array(unsigned int n) : _array(new T[n]), _size(n) {};
-	Array(const Array &other) : _array(NULL), _size(0)
+	Array() : _array(NULL), _numOfElements(0) {};
+	Array(unsigned int n) : _array(new T[n]), _numOfElements(n) {};
+	Array(const Array &other) : _array(new T[other._numOfElements]), _numOfElements(other._numOfElements)
 	{
-		*this = other;
+		for (unsigned int i = 0; i < this->_numOfElements; i++)
+			this->_array[i] = other._array[i];
 	};
 	Array &operator=(const Array &other)
 	{
 		if (this != &other)
 		{
-			delete[] _array;
-			this->_size = other._size;
-			this->_array = new T[this->_size];
-			for (unsigned int i = 0; i < _size; i++)
-				_array[i] = other._array[i];
+			this->_numOfElements = other._numOfElements;
+			T *new_array = new T[this->_numOfElements];
+			for (unsigned int i = 0; i < _numOfElements; i++)
+				new_array[i] = other._array[i];
+			delete[] this->_array;
+			this->_array = new_array;
 		}
 		return *this;
 	}
@@ -35,21 +37,21 @@ public:
 
 	T &operator[](unsigned int index)
 	{
-		if (index >= _size)
+		if (index >= _numOfElements)
 			throw std::out_of_range("Index is out of bounds");
 		return this->_array[index];
 	}
 
 	const T &operator[](unsigned int index) const // Add const overload
 	{
-		if (index >= _size)
+		if (index >= _numOfElements)
 			throw std::out_of_range("Index is out of bounds");
 		return this->_array[index];
 	}
 
 	unsigned int size() const
 	{
-		return this->_size;
+		return this->_numOfElements;
 	}
 };
 
