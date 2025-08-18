@@ -1,26 +1,4 @@
-#include <iostream>
-#include <string>
 #include "iter.hpp"
-
-// A template function to print any type of element
-template <typename T>
-void printElement(T &element)
-{
-	std::cout << element << " ";
-}
-
-// A function to increment numeric types
-template <typename T>
-void increment(T &n)
-{
-	n++;
-}
-
-// A function to change a character to uppercase
-void toUpper(char &c)
-{
-	c = std::toupper(c);
-}
 
 int main(void)
 {
