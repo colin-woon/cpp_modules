@@ -2,11 +2,14 @@
 #define SPAN_HPP
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 class Span
 {
 private:
-	unsigned int _numbers[];
+	unsigned int _maxSize;
+	std::vector<int> _numbers;
 
 public:
 	Span();
@@ -26,12 +29,13 @@ public:
 	};
 
 	Span(unsigned int init);
-	void addNumber(unsigned int num);
-	unsigned int shortestSpan() const;
-	unsigned int longestSpan() const;
-	void fillNumbers();
+	void addNumber(int num);
+	int shortestSpan() const;
+	int longestSpan() const;
+	void fillNumbers(std::vector<int>::iterator from, std::vector<int>::iterator to);
 
-	unsigned int getNumbers() const;
+	std::vector<int> getNumbers() const;
+	unsigned int getMaxSize() const;
 };
 
 #endif
