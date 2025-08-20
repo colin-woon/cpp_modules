@@ -10,5 +10,12 @@ int main()
 	sp.addNumber(11);
 	std::cout << sp.shortestSpan() << std::endl;
 	std::cout << sp.longestSpan() << std::endl;
+
+	std::vector<int> values;
+	for (int i = 0; i < std::vector<int>::max_size(); ++i)
+		values.push_back(i);
+
+	Span spam(std::vector<int>::max_size());
+	spam.fillNumbers(values.begin(), values.end());
 	return 0;
 }

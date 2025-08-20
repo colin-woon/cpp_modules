@@ -10,8 +10,8 @@ Span &Span::operator=(const Span &other)
 	{
 		this->_maxSize = other._maxSize;
 		this->_numbers = other._numbers;
-		return *this;
 	}
+	return *this;
 }
 
 Span::~Span() {}
@@ -47,6 +47,13 @@ int Span::shortestSpan() const
 	std::sort(sorted.begin(), sorted.end());
 
 	int minSpan = sorted[1] - sorted[0];
+	for (std::vector<int>::iterator it = sorted.begin() + 1; it != sorted.end(); it++)
+	{
+		int span = *it - *(it - 1);
+		if (span < minSpan)
+			minSpan = span;
+	}
+	return minSpan;
 }
 
 int Span::longestSpan() const
@@ -61,6 +68,12 @@ int Span::longestSpan() const
 
 void Span::fillNumbers(std::vector<int>::iterator from, std::vector<int>::iterator to)
 {
+	for (std::vector<int>::iterator it = from; it != to; it++)
+	{
+		if (_numbers.size() >= _maxSize)
+			throw FullNumbersException();
+		_numbers.push_back(*it);
+	}
 }
 
 std::vector<int> Span::getNumbers() const
