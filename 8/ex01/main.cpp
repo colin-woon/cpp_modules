@@ -12,10 +12,14 @@ int main()
 	std::cout << sp.longestSpan() << std::endl;
 
 	std::vector<int> values;
-	for (int i = 0; i < std::vector<int>::max_size(); ++i)
+	size_t testSize = 100000;
+	for (int i = 0; i < testSize; ++i)
 		values.push_back(i);
 
-	Span spam(std::vector<int>::max_size());
+	Span spam(testSize);
 	spam.fillNumbers(values.begin(), values.end());
+	std::cout << spam.shortestSpan() << std::endl;
+	std::cout << spam.longestSpan() << std::endl;
+
 	return 0;
 }
