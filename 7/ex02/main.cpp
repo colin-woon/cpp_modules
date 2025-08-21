@@ -90,7 +90,7 @@ int main(int, char **)
 // int main()
 // {
 // 	// If you store derived objects(Dog, Cat) in an Array<Animal>, they get object sliced : only the Animal part is stored, and you lose the derived class behavior.
-// 	// Array<Animal> *animals[3];
+// 	// Array<Animal*> animals(3);
 // 	Animal *animals[3];
 // 	animals[0] = new Dog();
 // 	animals[1] = new Cat();
