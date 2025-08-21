@@ -1,6 +1,6 @@
 CXX = c++
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN)
+CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN) $(WFLAGS)
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
