@@ -12,6 +12,7 @@
 
 // Performance: Even if you had enough memory, the loop to populate the vector would run over two billion times, which would take an impractically long time to complete.
 
+// WHY _maxSize needed: std::vector will automatically reallocate space if new element added exceeds original capacity, so we want to limit that behaviour here
 int main()
 {
 	Span sp = Span(5);
@@ -28,10 +29,12 @@ int main()
 	for (int i = 0; i < testSize; ++i)
 		values.push_back(i);
 
+	// values.push_back(1); // here shows why _maxSize is needed, next try block will fail
 	Span spam(testSize);
 	try
 	{
 		spam.fillNumbers(values.begin(), values.end());
+		std::cout << "Filled Numbers" << std::endl;
 		spam.addNumber(1);
 	}
 	catch (const std::exception &e)
