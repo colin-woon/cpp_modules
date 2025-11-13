@@ -9,7 +9,7 @@ int main(int ac, char **av)
 		BitcoinExchange *btcExchange;
 		try
 		{
-			btcExchange = new BitcoinExchange("data.csv");
+			btcExchange = new BitcoinExchange("data.csv", ',', av[1], '|');
 			btcExchange->getAllDetails();
 			delete btcExchange;
 		}

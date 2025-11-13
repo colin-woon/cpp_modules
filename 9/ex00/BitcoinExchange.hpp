@@ -23,6 +23,7 @@ public:
 
 private:
 	map<string, string> _priceAction;
+	map<string, string> _exchangeRate;
 
 public:
 	BitcoinExchange();
@@ -36,13 +37,21 @@ public:
 		const char *what() const throw();
 	};
 
+	class InvalidFileExtensionException : public std::exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
 	class InvalidFileFormatException : public std::exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	BitcoinExchange(const string &fileName);
+	// map<string, string> &extractFile(const string &fileName, const char &delimeter);
+	void extractFile(const string &fileName, const char &delimeter, map<string, string> &map);
+	BitcoinExchange(const string &csvFile, char csvFileDelimeter, const string &inputFile, char inputFileDelimeter);
 	void getAllDetails() const;
 };
 
