@@ -1,13 +1,13 @@
 CXX = c++
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN) $(WFLAGS)
+CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN)
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf
 
-NAME = span
-SRCS = main.cpp Span.cpp
+NAME = btc
+SRCS = main.cpp BitcoinExchange.cpp
 OBJS = $(SRCS:.cpp=.o)
-INC = Span.hpp
+INC = BitcoinExchange.hpp
 
 all: $(NAME)
 
