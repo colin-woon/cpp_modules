@@ -6,12 +6,14 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 
 using std::cerr;
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::map;
+using std::mktime;
 using std::string;
 using std::stringstream;
 
@@ -24,6 +26,9 @@ public:
 private:
 	map<string, string> _priceAction;
 	map<string, string> _exchangeRate;
+	static void extractFile(const string &fileName, const char &delimeter, map<string, string> &map, bool isInputFile);
+	static bool isInvalidDate(const string &date);
+	static bool isValidValue(const string &value);
 
 public:
 	BitcoinExchange();
@@ -43,14 +48,30 @@ public:
 		const char *what() const throw();
 	};
 
-	class InvalidFileFormatException : public std::exception
+	class InvalidDataFormatException : public std::exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	// map<string, string> &extractFile(const string &fileName, const char &delimeter);
-	void extractFile(const string &fileName, const char &delimeter, map<string, string> &map);
+	class InvalidDateFormatException : public std::exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
+	class TooLargeValueException : public std::exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
+	class NegativeValueException : public std::exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
 	BitcoinExchange(const string &csvFile, char csvFileDelimeter, const string &inputFile, char inputFileDelimeter);
 	void getAllDetails() const;
 };
