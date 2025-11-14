@@ -11,6 +11,7 @@ int main(int ac, char **av)
 		{
 			btcExchange = new BitcoinExchange("data.csv", ',', av[1], '|');
 			btcExchange->getAllDetails();
+			// btcExchange->calculateExchangeRate();
 			delete btcExchange;
 		}
 		catch (const std::exception &e)

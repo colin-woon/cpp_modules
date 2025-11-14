@@ -48,6 +48,16 @@ const char *BitcoinExchange::NegativeValueException::what() const throw()
 	return "Error: not a positive number.";
 }
 
+const char *BitcoinExchange::InvalidValueTypeException::what() const throw()
+{
+	return "Error: not a number.";
+}
+
+const char *BitcoinExchange::DateNotFoundException::what() const throw()
+{
+	return "Error: date not found.";
+}
+
 bool BitcoinExchange::isInvalidDate(const string &date)
 {
 	// The required format length is YYYY-MM-DD (10 characters)
@@ -116,10 +126,15 @@ bool BitcoinExchange::isInvalidDate(const string &date)
 bool BitcoinExchange::isValidValue(const string &value)
 {
 	stringstream ss(value);
-	int number;
+	float number;
 
 	ss >> number;
 
+	// fail() checks if extraction failed (e.g., "hello")
+	// !ss.eof() checks if we reached the end of the string (i.e., trailing chars like "10.5abc")
+	// isdigit(ss.peek()) is a simpler (but slightly less robust) alternative to checking !ss.eof()
+	if (ss.fail() || !ss.eof())
+		throw InvalidValueTypeException();
 	if (number < 0)
 		throw NegativeValueException();
 	else if (number > 1000)
@@ -180,5 +195,67 @@ void BitcoinExchange::getAllDetails() const
 		const string &key = it->first;
 		const string &value = it->second;
 		cout << key << " | " << value << endl;
+	}
+}
+
+void BitcoinExchange::calculateExchangeRate() const
+{
+	constMapIterator priceActionIt;
+	string *inputDate = NULL;
+	string *inputValue = NULL;
+	string *priceRate = NULL;
+	string *result = NULL;
+
+	for (constMapIterator exchangeRateIt = _exchangeRate.begin(); exchangeRateIt != _exchangeRate.end(); exchangeRateIt++)
+	{
+		try
+		{
+			priceActionIt = _priceAction.end();
+			if (isInvalidDate(exchangeRateIt->first))
+				throw InvalidDateFormatException();
+			else
+				*inputDate = exchangeRateIt->first;
+			if (_priceAction.find(*inputDate) == _priceAction.end())
+			{
+				while (priceActionIt->first != *inputDate)
+					priceActionIt--;
+				if (priceActionIt == _priceAction.begin())
+					throw DateNotFoundException();
+				else
+					*priceRate = priceActionIt->second;
+			}
+			else
+				*priceRate = _priceAction.at(*inputDate);
+
+			if (isValidValue(exchangeRateIt->second))
+			{
+				*inputValue = exchangeRateIt->second;
+
+				stringstream ss;
+				float inputValueFloat;
+				float priceRateFloat;
+				float resultFloat;
+
+				ss.str(*inputValue);
+				ss >> inputValueFloat;
+				ss.clear();
+
+				ss.str(*priceRate);
+				ss >> priceRateFloat;
+				ss.clear();
+
+				resultFloat = inputValueFloat * priceRateFloat;
+
+				ss.str("");
+				ss << resultFloat;
+				*result = ss.str();
+
+				cout << *inputDate << " => " << *inputValue << " = " << *result << endl;
+			}
+		}
+		catch (const exception &e)
+		{
+			cout << e.what() << endl;
+		}
 	}
 }

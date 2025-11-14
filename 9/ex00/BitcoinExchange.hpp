@@ -7,10 +7,12 @@
 #include <sstream>
 #include <fstream>
 #include <ctime>
+#include <exception>
 
 using std::cerr;
 using std::cout;
 using std::endl;
+using std::exception;
 using std::ifstream;
 using std::map;
 using std::mktime;
@@ -36,37 +38,49 @@ public:
 	BitcoinExchange &operator=(const BitcoinExchange &other);
 	~BitcoinExchange();
 
-	class FileOpenException : public std::exception
+	class FileOpenException : public exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	class InvalidFileExtensionException : public std::exception
+	class InvalidFileExtensionException : public exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	class InvalidDataFormatException : public std::exception
+	class InvalidDataFormatException : public exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	class InvalidDateFormatException : public std::exception
+	class InvalidDateFormatException : public exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	class TooLargeValueException : public std::exception
+	class TooLargeValueException : public exception
 	{
 	public:
 		const char *what() const throw();
 	};
 
-	class NegativeValueException : public std::exception
+	class NegativeValueException : public exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
+	class InvalidValueTypeException : public exception
+	{
+	public:
+		const char *what() const throw();
+	};
+
+	class DateNotFoundException : public exception
 	{
 	public:
 		const char *what() const throw();
@@ -74,6 +88,7 @@ public:
 
 	BitcoinExchange(const string &csvFile, char csvFileDelimeter, const string &inputFile, char inputFileDelimeter);
 	void getAllDetails() const;
+	void calculateExchangeRate() const;
 };
 
 #endif
