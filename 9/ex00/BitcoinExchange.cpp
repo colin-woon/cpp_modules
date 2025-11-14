@@ -33,9 +33,18 @@ const char *BitcoinExchange::InvalidDataFormatException::what() const throw()
 	return "Error: missing value for date.";
 }
 
-const char *BitcoinExchange::InvalidDateFormatException::what() const throw()
+BitcoinExchange::InvalidInputFormatException::InvalidInputFormatException(const string &line) throw() : badLine(line) {}
+
+const char *BitcoinExchange::InvalidInputFormatException::what() const throw()
 {
 	return "Error: bad input";
+}
+
+BitcoinExchange::InvalidInputFormatException::~InvalidInputFormatException() throw() {}
+
+const char *BitcoinExchange::InvalidDateFormatException::what() const throw()
+{
+	return "Error: invalid date format, expected YYYY-MM-DD";
 }
 
 const char *BitcoinExchange::TooLargeValueException::what() const throw()
@@ -142,7 +151,7 @@ bool BitcoinExchange::isValidValue(const string &value)
 	return true;
 }
 
-void BitcoinExchange::extractFile(const string &fileName, const char &delimeter, map<string, string> &map, bool isInputFile)
+void BitcoinExchange::extractFile(const string &fileName, const char &delimeter, map<string, string> &map)
 {
 	ifstream file(fileName.c_str());
 	string line, date, value;
@@ -170,12 +179,11 @@ void BitcoinExchange::extractFile(const string &fileName, const char &delimeter,
 	file.close();
 }
 
-BitcoinExchange::BitcoinExchange(const string &csvFile, char csvFileDelimeter, const string &inputFile, char inputFileDelimeter)
+BitcoinExchange::BitcoinExchange(const string &csvFile, char csvFileDelimeter)
 {
-	if (csvFile != "data.csv" && inputFile != "input.txt")
+	if (csvFile != "data.csv")
 		throw InvalidFileExtensionException();
-	extractFile(csvFile, csvFileDelimeter, _priceAction, false);
-	extractFile(inputFile, inputFileDelimeter, _exchangeRate, true);
+	extractFile(csvFile, csvFileDelimeter, _priceAction);
 }
 
 void BitcoinExchange::getAllDetails() const
@@ -187,60 +195,72 @@ void BitcoinExchange::getAllDetails() const
 		const string &value = it->second;
 		cout << key << " | " << value << endl;
 	}
-
-	cout << endl;
-	cout << "Date" << " | " << "Count" << endl;
-	for (constMapIterator it = _exchangeRate.begin(); it != _exchangeRate.end(); it++)
-	{
-		const string &key = it->first;
-		const string &value = it->second;
-		cout << key << " | " << value << endl;
-	}
 }
 
-void BitcoinExchange::calculateExchangeRate() const
+void BitcoinExchange::calculateExchangeRate(const string &inputFile, const string &delimeter) const
 {
-	constMapIterator priceActionIt;
-	string *inputDate = NULL;
-	string *inputValue = NULL;
-	string *priceRate = NULL;
-	string *result = NULL;
+	string line;
 
-	for (constMapIterator exchangeRateIt = _exchangeRate.begin(); exchangeRateIt != _exchangeRate.end(); exchangeRateIt++)
+	if (inputFile != "input.txt")
+		throw InvalidFileExtensionException();
+
+	ifstream inputFileStream(inputFile.c_str());
+	if (!inputFileStream.is_open())
+		throw FileOpenException();
+
+	getline(inputFileStream, line);
+
+	while (getline(inputFileStream, line))
 	{
+		std::string inputDate;
+		std::string inputValue;
+		std::string priceRate;
+		std::string result;
+
 		try
 		{
-			priceActionIt = _priceAction.end();
-			if (isInvalidDate(exchangeRateIt->first))
+			size_t delimeterPos = line.find(delimeter);
+			if (delimeterPos == string::npos)
+				throw InvalidInputFormatException(line);
+
+			inputDate = line.substr(0, delimeterPos);
+			if (isInvalidDate(inputDate))
 				throw InvalidDateFormatException();
-			else
-				*inputDate = exchangeRateIt->first;
-			if (_priceAction.find(*inputDate) == _priceAction.end())
+
+			constMapIterator priceActionIt = _priceAction.find(inputDate);
+			if (priceActionIt == _priceAction.end())
 			{
-				while (priceActionIt->first != *inputDate)
-					priceActionIt--;
+				priceActionIt = _priceAction.lower_bound(inputDate);
 				if (priceActionIt == _priceAction.begin())
-					throw DateNotFoundException();
-				else
-					*priceRate = priceActionIt->second;
+				{
+					if (priceActionIt->first != inputDate)
+						throw DateNotFoundException();
+				}
+
+				// Get the previous iterator (the closest date <= inputDate)
+				if (priceActionIt != _priceAction.begin())
+					priceActionIt--;
+
+				priceRate = priceActionIt->second;
 			}
 			else
-				*priceRate = _priceAction.at(*inputDate);
+				priceRate = priceActionIt->second;
 
-			if (isValidValue(exchangeRateIt->second))
+			inputValue = line.substr(delimeterPos + delimeter.size());
+			if (inputValue.empty())
+				throw InvalidInputFormatException(line);
+			if (isValidValue(inputValue))
 			{
-				*inputValue = exchangeRateIt->second;
-
 				stringstream ss;
 				float inputValueFloat;
 				float priceRateFloat;
 				float resultFloat;
 
-				ss.str(*inputValue);
+				ss.str(inputValue);
 				ss >> inputValueFloat;
 				ss.clear();
 
-				ss.str(*priceRate);
+				ss.str(priceRate);
 				ss >> priceRateFloat;
 				ss.clear();
 
@@ -248,10 +268,14 @@ void BitcoinExchange::calculateExchangeRate() const
 
 				ss.str("");
 				ss << resultFloat;
-				*result = ss.str();
+				result = ss.str();
 
-				cout << *inputDate << " => " << *inputValue << " = " << *result << endl;
+				cout << inputDate << " => " << inputValue << " = " << result << endl;
 			}
+		}
+		catch (const InvalidInputFormatException &e)
+		{
+			cout << e.what() << " => " << e.badLine << endl;
 		}
 		catch (const exception &e)
 		{

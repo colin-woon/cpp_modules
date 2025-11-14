@@ -9,9 +9,9 @@ int main(int ac, char **av)
 		BitcoinExchange *btcExchange;
 		try
 		{
-			btcExchange = new BitcoinExchange("data.csv", ',', av[1], '|');
-			btcExchange->getAllDetails();
-			// btcExchange->calculateExchangeRate();
+			btcExchange = new BitcoinExchange("data.csv", ',');
+			// btcExchange->getAllDetails();
+			btcExchange->calculateExchangeRate(av[1], " | ");
 			delete btcExchange;
 		}
 		catch (const std::exception &e)

@@ -27,8 +27,7 @@ public:
 
 private:
 	map<string, string> _priceAction;
-	map<string, string> _exchangeRate;
-	static void extractFile(const string &fileName, const char &delimeter, map<string, string> &map, bool isInputFile);
+	static void extractFile(const string &fileName, const char &delimeter, map<string, string> &map);
 	static bool isInvalidDate(const string &date);
 	static bool isValidValue(const string &value);
 
@@ -54,6 +53,15 @@ public:
 	{
 	public:
 		const char *what() const throw();
+	};
+
+	class InvalidInputFormatException : public exception
+	{
+	public:
+		string badLine;
+		InvalidInputFormatException(const string &line) throw();
+		const char *what() const throw();
+		virtual ~InvalidInputFormatException() throw();
 	};
 
 	class InvalidDateFormatException : public exception
@@ -86,9 +94,9 @@ public:
 		const char *what() const throw();
 	};
 
-	BitcoinExchange(const string &csvFile, char csvFileDelimeter, const string &inputFile, char inputFileDelimeter);
+	BitcoinExchange(const string &csvFile, char csvFileDelimeter);
 	void getAllDetails() const;
-	void calculateExchangeRate() const;
+	void calculateExchangeRate(const string &inputFile, const string &delimeter) const;
 };
 
 #endif
