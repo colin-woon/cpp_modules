@@ -30,6 +30,8 @@ private:
 	static void extractFile(const string &fileName, const char &delimeter, map<string, string> &map);
 	static bool isInvalidDate(const string &date);
 	static bool isValidValue(const string &value);
+	string getPrice(string &inputDate) const;
+	void calculateResult(string &inputValue, string &priceRate, string &inputDate) const;
 
 public:
 	BitcoinExchange();

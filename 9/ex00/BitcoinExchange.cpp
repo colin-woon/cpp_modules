@@ -197,6 +197,50 @@ void BitcoinExchange::getAllDetails() const
 	}
 }
 
+string BitcoinExchange::getPrice(string &inputDate) const
+{
+	constMapIterator priceActionIt = _priceAction.find(inputDate);
+	if (priceActionIt == _priceAction.end())
+	{
+		priceActionIt = _priceAction.lower_bound(inputDate);
+		if (priceActionIt == _priceAction.begin())
+		{
+			if (priceActionIt->first != inputDate)
+				throw DateNotFoundException();
+		}
+
+		// Get the previous iterator (the closest date <= inputDate)
+		if (priceActionIt != _priceAction.begin())
+			priceActionIt--;
+	}
+	return priceActionIt->second;
+}
+
+void BitcoinExchange::calculateResult(string &inputValue, string &priceRate, string &inputDate) const
+{
+	stringstream ss;
+	float inputValueFloat;
+	float priceRateFloat;
+	float resultFloat;
+	std::string result;
+
+	ss.str(inputValue);
+	ss >> inputValueFloat;
+	ss.clear();
+
+	ss.str(priceRate);
+	ss >> priceRateFloat;
+	ss.clear();
+
+	resultFloat = inputValueFloat * priceRateFloat;
+
+	ss.str("");
+	ss << resultFloat;
+	result = ss.str();
+
+	cout << inputDate << " => " << inputValue << " = " << result << endl;
+}
+
 void BitcoinExchange::calculateExchangeRate(const string &inputFile, const string &delimeter) const
 {
 	string line;
@@ -215,7 +259,6 @@ void BitcoinExchange::calculateExchangeRate(const string &inputFile, const strin
 		std::string inputDate;
 		std::string inputValue;
 		std::string priceRate;
-		std::string result;
 
 		try
 		{
@@ -227,51 +270,14 @@ void BitcoinExchange::calculateExchangeRate(const string &inputFile, const strin
 			if (isInvalidDate(inputDate))
 				throw InvalidDateFormatException();
 
-			constMapIterator priceActionIt = _priceAction.find(inputDate);
-			if (priceActionIt == _priceAction.end())
-			{
-				priceActionIt = _priceAction.lower_bound(inputDate);
-				if (priceActionIt == _priceAction.begin())
-				{
-					if (priceActionIt->first != inputDate)
-						throw DateNotFoundException();
-				}
-
-				// Get the previous iterator (the closest date <= inputDate)
-				if (priceActionIt != _priceAction.begin())
-					priceActionIt--;
-
-				priceRate = priceActionIt->second;
-			}
-			else
-				priceRate = priceActionIt->second;
+			priceRate = getPrice(inputDate);
 
 			inputValue = line.substr(delimeterPos + delimeter.size());
 			if (inputValue.empty())
 				throw InvalidInputFormatException(line);
+
 			if (isValidValue(inputValue))
-			{
-				stringstream ss;
-				float inputValueFloat;
-				float priceRateFloat;
-				float resultFloat;
-
-				ss.str(inputValue);
-				ss >> inputValueFloat;
-				ss.clear();
-
-				ss.str(priceRate);
-				ss >> priceRateFloat;
-				ss.clear();
-
-				resultFloat = inputValueFloat * priceRateFloat;
-
-				ss.str("");
-				ss << resultFloat;
-				result = ss.str();
-
-				cout << inputDate << " => " << inputValue << " = " << result << endl;
-			}
+				calculateResult(inputValue, priceRate, inputDate);
 		}
 		catch (const InvalidInputFormatException &e)
 		{
