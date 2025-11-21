@@ -1,5 +1,7 @@
 #include "PmergeMe.hpp"
 
+int gComparisonCount = 0;
+
 PmergeMe::FindByKey::FindByKey(int val) : target(val) {}
 
 bool PmergeMe::FindByKey::operator()(const PairType &p) const
@@ -53,30 +55,15 @@ static void printSortedVector(vector<int> &input)
 	cout << "end" << endl;
 }
 
-// Helper to check if a number is a power of 2 using bitwise magic
-// (x & (x - 1)) == 0 is the classic hack for this.
-bool isPowerOfTwo(long long x)
+long getNextJacobsthal(long currentNum)
 {
-	return x > 0 && (x & (x - 1)) == 0;
-}
-
-long long getNextJacobSthal(long long currentNum)
-{
-	if (currentNum == 0 || currentNum == 1)
+	static long lastNum = 1;
+	if (currentNum == 0)
 		return 1;
 
-	// LOGIC CHECK:
-	// If (3 * current + 1) is a power of 2, the index 'n' was EVEN.
-	// If index is even, the formula for next is: 2 * J + 1
-	if (isPowerOfTwo(3 * currentNum + 1))
-	{
-		return (2 * currentNum) + 1;
-	}
-	// Otherwise index was ODD, formula is: 2 * J - 1
-	else
-	{
-		return (2 * currentNum) - 1;
-	}
+	lastNum = 2 * lastNum + currentNum;
+
+	return (lastNum);
 }
 
 vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
@@ -100,16 +87,48 @@ vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
 		groups.push_back(std::make_pair(-1, *it));
 
 	vector<int> sortedWinners = fordJohnsonSortVector(mainChain);
-	if (sortedWinners.size() == 1)
+	const vector<int> referenceSortedWinners = sortedWinners;
+
+	long previousJacobsthalNumber = 0;
+	for (long i = 0; i < (long)referenceSortedWinners.size();)
 	{
-		it = _sortedVect.begin();
-		_sortedVect.insert(it, sortedWinners[0]);
+		bool isLastIteration = false;
+		int currentJacobsthalNumber = getNextJacobsthal(previousJacobsthalNumber);
+		if (currentJacobsthalNumber >= referenceSortedWinners.size())
+		{
+			i = referenceSortedWinners.size() - 1;
+			isLastIteration = true;
+		}
+		else
+			i = currentJacobsthalNumber - 1;
+		while (i >= 0 && i > previousJacobsthalNumber - 1)
+		{
+			if (i == 0)
+			{
+				it = sortedWinners.begin();
+				vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[0]));
+				sortedWinners.insert(it, pairIt->second);
+			}
+			else
+			{
+				vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[i]));
+				vector<int>::iterator winnerPos = std::lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->first);
+				vector<int>::iterator insertPosition = custom_lower_bound(sortedWinners.begin(), winnerPos, pairIt->second);
+				sortedWinners.insert(insertPosition, pairIt->second);
+			}
+			i--;
+		}
+		if (isLastIteration)
+			break;
+		previousJacobsthalNumber = currentJacobsthalNumber;
 	}
-	else
+	vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(-1));
+	if (pairIt != groups.end())
 	{
-		int lastNum = 1;
-		int countFrom = getNextJacobSthal(lastNum);
+		vector<int>::iterator insertPosition = custom_lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->second);
+		sortedWinners.insert(insertPosition, pairIt->second);
 	}
+	_sortedVect = sortedWinners;
 	printVector(groups);
 	printSortedVector(sortedWinners);
 	return sortedWinners;
@@ -118,5 +137,6 @@ vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
 void PmergeMe::sortVector()
 {
 	vector<int> temp = fordJohnsonSortVector(_inputVect);
+	cout << "done" << endl;
 	printSortedVector(_sortedVect);
 }

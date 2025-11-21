@@ -14,7 +14,7 @@ bool isInvalidInput(const char *av, long &val)
 		cerr << "Error: Negative value detected" << endl;
 		return true;
 	}
-	if (val > UINT_MAX)
+	if (val > INT_MAX)
 	{
 		cerr << "Error: Overflow detected" << endl;
 		return true;
@@ -30,22 +30,14 @@ int main(int ac, char **av)
 		PmergeMe container;
 		int i = 1;
 
-		for (; i + 1 < ac; i += 2)
+		for (; i < ac; i++)
 		{
-			long first, second;
-			if (isInvalidInput(av[i], first) || isInvalidInput(av[i + 1], second))
+			long val;
+			if (isInvalidInput(av[i], val))
 				return (1);
-			container.addToVector(std::make_pair((int)first, (int)second));
+			container.addToVector(val);
 		}
-
-		if (i == ac - 1)
-		{
-			long second;
-			if (isInvalidInput(av[i], second))
-				return (1);
-			container.addToVector(std::make_pair((int)-1, (int)second));
-		}
-		container.printVector();
+		container.sortVector();
 
 		return (0);
 	}
