@@ -59,7 +59,15 @@ long getNextJacobsthal(long currentNum)
 {
 	static long lastNum = 1;
 	if (currentNum == 0)
+	{
+		lastNum = 1;
 		return 1;
+	}
+	else if (currentNum == 1)
+	{
+		lastNum = 1;
+		return 3;
+	}
 
 	lastNum = 2 * lastNum + currentNum;
 
@@ -74,29 +82,38 @@ vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
 	vector<int>::iterator it;
 	vector<PairType> groups;
 	vector<int> mainChain;
+	bool hasOrphan = false;
 
 	for (it = winners.begin(); it < winners.end() - 1; it += 2)
 	{
 		groups.push_back(std::make_pair(*it, *(it + 1)));
 		PairType &pairIt = groups.back();
+		gComparisonCount++;
 		if (pairIt.first < pairIt.second)
 			std::swap(pairIt.first, pairIt.second);
 		mainChain.push_back(pairIt.first);
 	}
 	if (it == winners.end() - 1)
+	{
 		groups.push_back(std::make_pair(-1, *it));
+		hasOrphan = true;
+	}
 
 	vector<int> sortedWinners = fordJohnsonSortVector(mainChain);
 	const vector<int> referenceSortedWinners = sortedWinners;
 
+	long totalPendingLosers = groups.size();
 	long previousJacobsthalNumber = 0;
-	for (long i = 0; i < (long)referenceSortedWinners.size();)
+	for (long i = 0; i < totalPendingLosers;)
 	{
 		bool isLastIteration = false;
 		int currentJacobsthalNumber = getNextJacobsthal(previousJacobsthalNumber);
-		if (currentJacobsthalNumber >= referenceSortedWinners.size())
+		if (currentJacobsthalNumber > referenceSortedWinners.size())
 		{
-			i = referenceSortedWinners.size() - 1;
+			if (!hasOrphan)
+				i = referenceSortedWinners.size() - 1;
+			else
+				i = currentJacobsthalNumber - 1;
 			isLastIteration = true;
 		}
 		else
@@ -111,22 +128,32 @@ vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
 			}
 			else
 			{
-				vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[i]));
-				vector<int>::iterator winnerPos = std::lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->first);
-				vector<int>::iterator insertPosition = custom_lower_bound(sortedWinners.begin(), winnerPos, pairIt->second);
-				sortedWinners.insert(insertPosition, pairIt->second);
+				vector<PairType>::iterator pairIt;
+				vector<int>::iterator insertPosition;
+				vector<int>::iterator endRange;
+
+				if (hasOrphan && i >= referenceSortedWinners.size())
+				{
+					pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(-1));
+					endRange = sortedWinners.end();
+					insertPosition = custom_lower_bound(sortedWinners.begin(), endRange, pairIt->second);
+					sortedWinners.insert(insertPosition, pairIt->second);
+					i = referenceSortedWinners.size() - 1;
+					continue;
+				}
+				else
+				{
+					pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[i]));
+					endRange = std::lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->first);
+					insertPosition = custom_lower_bound(sortedWinners.begin(), endRange, pairIt->second);
+					sortedWinners.insert(insertPosition, pairIt->second);
+				}
 			}
 			i--;
 		}
 		if (isLastIteration)
 			break;
 		previousJacobsthalNumber = currentJacobsthalNumber;
-	}
-	vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(-1));
-	if (pairIt != groups.end())
-	{
-		vector<int>::iterator insertPosition = custom_lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->second);
-		sortedWinners.insert(insertPosition, pairIt->second);
 	}
 	_sortedVect = sortedWinners;
 	printVector(groups);
@@ -138,5 +165,6 @@ void PmergeMe::sortVector()
 {
 	vector<int> temp = fordJohnsonSortVector(_inputVect);
 	cout << "done" << endl;
+	cout << gComparisonCount << endl;
 	printSortedVector(_sortedVect);
 }
