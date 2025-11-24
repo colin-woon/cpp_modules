@@ -2,6 +2,8 @@
 
 int gComparisonCount = 0;
 
+PmergeMe::JacobsthalRecursionState::JacobsthalRecursionState() : previousJacobsthalNumber(0), currentJacobsthalNumber(0), i(0), hasOrphan(false), isLastIteration(false) {}
+
 PmergeMe::FindByKey::FindByKey(int val) : target(val) {}
 
 bool PmergeMe::FindByKey::operator()(const PairType &p) const
@@ -74,91 +76,117 @@ long getNextJacobsthal(long currentNum)
 	return (lastNum);
 }
 
-vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &winners)
+void makePairs(vector<int> &unsortedMainChain, vector<int> &newMainChain, vector<PairType> &pairs, bool &hasOrphan)
 {
-	if (winners.size() == 1)
-		return winners;
-
 	vector<int>::iterator it;
-	vector<PairType> groups;
-	vector<int> mainChain;
-	bool hasOrphan = false;
 
-	for (it = winners.begin(); it < winners.end() - 1; it += 2)
+	for (it = unsortedMainChain.begin(); it < unsortedMainChain.end() - 1; it += 2)
 	{
-		groups.push_back(std::make_pair(*it, *(it + 1)));
-		PairType &pairIt = groups.back();
+		pairs.push_back(std::make_pair(*it, *(it + 1)));
+		PairType &pairIt = pairs.back();
 		gComparisonCount++;
 		if (pairIt.first < pairIt.second)
 			std::swap(pairIt.first, pairIt.second);
-		mainChain.push_back(pairIt.first);
+		newMainChain.push_back(pairIt.first);
 	}
-	if (it == winners.end() - 1)
+	if (it == unsortedMainChain.end() - 1)
 	{
-		groups.push_back(std::make_pair(-1, *it));
+		pairs.push_back(std::make_pair(-1, *it));
 		hasOrphan = true;
 	}
+}
 
-	vector<int> sortedWinners = fordJohnsonSortVector(mainChain);
-	const vector<int> referenceSortedWinners = sortedWinners;
+void PmergeMe::getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &initialSortedMainChain)
+{
+	bool &isLastIteration = state.isLastIteration;
+	long &previousJacobsthalNumber = state.previousJacobsthalNumber;
+	long &i = state.i;
+	long &currentJacobsthalNumber = state.currentJacobsthalNumber;
 
-	long totalPendingLosers = groups.size();
-	long previousJacobsthalNumber = 0;
-	for (long i = 0; i < totalPendingLosers;)
+	isLastIteration = false;
+	currentJacobsthalNumber = getNextJacobsthal(previousJacobsthalNumber);
+	if (currentJacobsthalNumber > (long)initialSortedMainChain.size())
 	{
-		bool isLastIteration = false;
-		int currentJacobsthalNumber = getNextJacobsthal(previousJacobsthalNumber);
-		if (currentJacobsthalNumber > referenceSortedWinners.size())
-		{
-			if (!hasOrphan)
-				i = referenceSortedWinners.size() - 1;
-			else
-				i = currentJacobsthalNumber - 1;
-			isLastIteration = true;
-		}
+		if (!state.hasOrphan)
+			i = initialSortedMainChain.size() - 1;
 		else
 			i = currentJacobsthalNumber - 1;
-		while (i >= 0 && i > previousJacobsthalNumber - 1)
+		isLastIteration = true;
+	}
+	else
+		i = currentJacobsthalNumber - 1;
+}
+
+void PmergeMe::insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state)
+{
+	long &i = state.i;
+	vector<int>::iterator it;
+
+	while (i >= 0 && i > state.previousJacobsthalNumber - 1)
+	{
+		if (i == 0)
 		{
-			if (i == 0)
+			it = sortedMainChain.begin();
+			vector<PairType>::iterator pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[0]));
+			sortedMainChain.insert(it, pairIt->second);
+		}
+		else
+		{
+			vector<PairType>::iterator pairIt;
+			vector<int>::iterator insertPosition;
+			vector<int>::iterator endRange;
+
+			if (state.hasOrphan && i >= (long)initialSortedMainChain.size())
 			{
-				it = sortedWinners.begin();
-				vector<PairType>::iterator pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[0]));
-				sortedWinners.insert(it, pairIt->second);
+				pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(-1));
+				endRange = sortedMainChain.end();
+				insertPosition = custom_lower_bound(sortedMainChain.begin(), endRange, pairIt->second);
+				sortedMainChain.insert(insertPosition, pairIt->second);
+				i = initialSortedMainChain.size() - 1;
+				continue;
 			}
 			else
 			{
-				vector<PairType>::iterator pairIt;
-				vector<int>::iterator insertPosition;
-				vector<int>::iterator endRange;
-
-				if (hasOrphan && i >= referenceSortedWinners.size())
-				{
-					pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(-1));
-					endRange = sortedWinners.end();
-					insertPosition = custom_lower_bound(sortedWinners.begin(), endRange, pairIt->second);
-					sortedWinners.insert(insertPosition, pairIt->second);
-					i = referenceSortedWinners.size() - 1;
-					continue;
-				}
-				else
-				{
-					pairIt = std::find_if(groups.begin(), groups.end(), FindByKey(referenceSortedWinners[i]));
-					endRange = std::lower_bound(sortedWinners.begin(), sortedWinners.end(), pairIt->first);
-					insertPosition = custom_lower_bound(sortedWinners.begin(), endRange, pairIt->second);
-					sortedWinners.insert(insertPosition, pairIt->second);
-				}
+				pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[i]));
+				endRange = std::lower_bound(sortedMainChain.begin(), sortedMainChain.end(), pairIt->first);
+				insertPosition = custom_lower_bound(sortedMainChain.begin(), endRange, pairIt->second);
+				sortedMainChain.insert(insertPosition, pairIt->second);
 			}
-			i--;
 		}
-		if (isLastIteration)
-			break;
-		previousJacobsthalNumber = currentJacobsthalNumber;
+		i--;
 	}
-	_sortedVect = sortedWinners;
-	printVector(groups);
-	printSortedVector(sortedWinners);
-	return sortedWinners;
+}
+
+vector<int> PmergeMe::fordJohnsonSortVector(vector<int> &unsortedMainChain)
+{
+	if (unsortedMainChain.size() == 1)
+		return unsortedMainChain;
+
+	vector<int>::iterator it;
+	vector<PairType> pairs;
+	vector<int> newMainChain;
+	JacobsthalRecursionState state;
+
+	makePairs(unsortedMainChain, newMainChain, pairs, state.hasOrphan);
+
+	vector<int> sortedMainChain = fordJohnsonSortVector(newMainChain);
+	const vector<int> initialSortedMainChain = sortedMainChain;
+
+	long &previousJacobsthalNumber = state.previousJacobsthalNumber;
+	long &i = state.i;
+
+	while (true)
+	{
+		getInsertIndexFromJacobsthal(state, initialSortedMainChain);
+		insertPending(initialSortedMainChain, sortedMainChain, pairs, state);
+		if (state.isLastIteration)
+			break;
+		state.previousJacobsthalNumber = state.currentJacobsthalNumber;
+	}
+	_sortedVect = sortedMainChain;
+	printVector(pairs);
+	printSortedVector(sortedMainChain);
+	return sortedMainChain;
 }
 
 void PmergeMe::sortVector()

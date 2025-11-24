@@ -70,6 +70,19 @@ private:
 		FindByKey(int val);
 		bool operator()(const PairType &p) const;
 	};
+
+	struct JacobsthalRecursionState
+	{
+		JacobsthalRecursionState();
+		long previousJacobsthalNumber;
+		long currentJacobsthalNumber;
+		long i;
+		bool hasOrphan;
+		bool isLastIteration;
+	};
+
+	void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
+	void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
 	vector<int> fordJohnsonSortVector(vector<int> &winners);
 
 public:
