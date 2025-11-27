@@ -117,6 +117,35 @@ void PmergeMe::getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, con
 		i = currentJacobsthalNumber - 1;
 }
 
+void PmergeMe::insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs)
+{
+	vector<int>::iterator it = sortedMainChain.begin();
+	vector<PairType>::iterator pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[0]));
+	sortedMainChain.insert(it, pairIt->second);
+}
+
+bool PmergeMe::tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain)
+{
+	if (!state.hasOrphan || state.i < (long)initialSortedMainChain.size())
+		return false;
+
+	vector<PairType>::iterator pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(-1));
+	vector<int>::iterator insertPosition = custom_lower_bound(sortedMainChain.begin(), sortedMainChain.end(), pairIt->second);
+	sortedMainChain.insert(insertPosition, pairIt->second);
+	state.i = initialSortedMainChain.size() - 1;
+	return true;
+}
+
+void PmergeMe::insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos)
+{
+	long &i = winnerPos;
+
+	vector<PairType>::iterator pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[i]));
+	vector<int>::iterator endRange = std::lower_bound(sortedMainChain.begin(), sortedMainChain.end(), pairIt->first);
+	vector<int>::iterator insertPosition = custom_lower_bound(sortedMainChain.begin(), endRange, pairIt->second);
+	sortedMainChain.insert(insertPosition, pairIt->second);
+}
+
 void PmergeMe::insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state)
 {
 	long &i = state.i;
@@ -125,34 +154,11 @@ void PmergeMe::insertPending(const vector<int> initialSortedMainChain, vector<in
 	while (i >= 0 && i > state.previousJacobsthalNumber - 1)
 	{
 		if (i == 0)
-		{
-			it = sortedMainChain.begin();
-			vector<PairType>::iterator pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[0]));
-			sortedMainChain.insert(it, pairIt->second);
-		}
+			insertFirstLoser(initialSortedMainChain, sortedMainChain, pairs);
+		else if (tryInsertOrphanLoser(state, initialSortedMainChain, pairs, sortedMainChain))
+			continue;
 		else
-		{
-			vector<PairType>::iterator pairIt;
-			vector<int>::iterator insertPosition;
-			vector<int>::iterator endRange;
-
-			if (state.hasOrphan && i >= (long)initialSortedMainChain.size())
-			{
-				pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(-1));
-				endRange = sortedMainChain.end();
-				insertPosition = custom_lower_bound(sortedMainChain.begin(), endRange, pairIt->second);
-				sortedMainChain.insert(insertPosition, pairIt->second);
-				i = initialSortedMainChain.size() - 1;
-				continue;
-			}
-			else
-			{
-				pairIt = std::find_if(pairs.begin(), pairs.end(), FindByKey(initialSortedMainChain[i]));
-				endRange = std::lower_bound(sortedMainChain.begin(), sortedMainChain.end(), pairIt->first);
-				insertPosition = custom_lower_bound(sortedMainChain.begin(), endRange, pairIt->second);
-				sortedMainChain.insert(insertPosition, pairIt->second);
-			}
-		}
+			insertLosersBackwardFromJacobsthal(initialSortedMainChain, pairs, sortedMainChain, i);
 		i--;
 	}
 }
