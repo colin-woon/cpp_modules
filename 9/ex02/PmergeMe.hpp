@@ -54,10 +54,6 @@ typedef pair<int, int> PairType;
 class PmergeMe
 {
 private:
-	// vector<PairType> _vect;
-	vector<int> _inputVect;
-	vector<int> _sortedVect;
-
 	// A Functor, making an object behave like a function
 	// eg:
 	// say the operator() was overloaded to "target + val"
@@ -81,12 +77,50 @@ private:
 		bool isLastIteration;
 	};
 
-	void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
-	void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
-	bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
-	void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
-	void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
-	vector<int> fordJohnsonSortVector(vector<int> &winners);
+	// ========== VECTOR HANDLER ==========
+	class VectorSorter
+	{
+	private:
+		vector<int> _input;
+		vector<int> _sorted;
+
+		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
+		void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
+		bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
+		void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
+		void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
+		void makePairs(vector<int> &unsortedMainChain, vector<int> &newMainChain, vector<PairType> &pairs, bool &hasOrphan);
+		vector<int> fordJohnsonSortVector(vector<int> &winners);
+
+	public:
+		void add(int val);
+		void sort();
+		void printPairs(vector<PairType> &input) const;
+		// const vector<int> &getResult() const;
+		// void printResult() const;
+	};
+
+	// // ========== LIST HANDLER ==========
+	// class ListSorter
+	// {
+	// private:
+	// 	list<int> _input;
+	// 	list<int> _sorted;
+
+	// 	list<int> fordJohnsonSort(list<int> &unsorted);
+	// 	void makePairs(list<int> &unsorted, list<int> &winners, vector<PairType> &pairs, bool &hasOrphan);
+	// 	void insertPending(const list<int> &initial, list<int> &sorted, vector<PairType> &pairs, JacobsthalState &state);
+	// 	void getInsertIndex(JacobsthalState &state, const list<int> &reference);
+
+	// public:
+	// 	void add(int val);
+	// 	void sort();
+	// 	const list<int> &getResult() const;
+	// 	void printResult() const;
+	// };
+
+	VectorSorter _vectorSorter;
+	// ListSorter _listSorter;
 
 public:
 	PmergeMe();
@@ -94,9 +128,11 @@ public:
 	PmergeMe &operator=(const PmergeMe &other);
 	~PmergeMe();
 
-	void addToVector(int p);
-	void printVector(vector<PairType> &input) const;
+	void addToVector(int val);
 	void sortVector();
+	void addToList(int val);
+	void sortList();
+	void printResults() const;
 };
 
 #endif
