@@ -268,19 +268,105 @@ void PmergeMe::ListSorter::add(int val)
 	this->_input.push_back(val);
 }
 
-void PmergeMe::ListSorter::printList() const
+void PmergeMe::ListSorter::printPairs(list<PairType> &input) const
+{
+	list<PairType>::const_iterator it;
+
+	for (it = input.begin(); it != input.end(); it++)
+	{
+		cout << it->first << ", " << it->second << endl;
+	}
+}
+
+void PmergeMe::ListSorter::printList(list<int> aList) const
 {
 	list<int>::const_iterator it;
 
 	cout << "List" << endl;
-	for (it = _input.begin(); it != _input.end(); it++)
+	for (it = aList.begin(); it != aList.end(); it++)
 	{
 		cout << *it << " ";
 	}
 	cout << endl;
 }
 
+void PmergeMe::ListSorter::makePairs(list<int> &unsortedMainChain, list<int> &newMainChain, list<PairType> &pairs, bool &hasOrphan)
+{
+	list<int>::iterator it = unsortedMainChain.begin();
+
+	while (it != unsortedMainChain.end())
+	{
+		int first = *it;
+		it++;
+
+		if (it == unsortedMainChain.end())
+		{
+			pairs.push_back(std::make_pair(-1, first));
+			hasOrphan = true;
+			break;
+		}
+
+		int second = *it;
+		pairs.push_back(std::make_pair(first, second));
+		PairType &pairIt = pairs.back();
+		gComparisonCount++;
+		if (pairIt.first < pairIt.second)
+			std::swap(pairIt.first, pairIt.second);
+		newMainChain.push_back(pairIt.first);
+		it++;
+	}
+
+	// for (it = unsortedMainChain.begin(); it < unsortedMainChain.end() - 1; it += 2)
+	// {
+	// 	pairs.push_back(std::make_pair(*it, *(it + 1)));
+	// 	PairType &pairIt = pairs.back();
+	// 	gComparisonCount++;
+	// 	if (pairIt.first < pairIt.second)
+	// 		std::swap(pairIt.first, pairIt.second);
+	// 	newMainChain.push_back(pairIt.first);
+	// }
+	// if (it == unsortedMainChain.end() - 1)
+	// {
+	// 	pairs.push_back(std::make_pair(-1, *it));
+	// 	hasOrphan = true;
+	// }
+}
+
+list<int> PmergeMe::ListSorter::fordJohnsonSortList(list<int> &unsortedMainChain)
+{
+	if (unsortedMainChain.size() == 1)
+		return unsortedMainChain;
+
+	list<int>::iterator it;
+	list<PairType> pairs;
+	list<int> newMainChain;
+	JacobsthalRecursionState state;
+
+	makePairs(unsortedMainChain, newMainChain, pairs, state.hasOrphan);
+
+	list<int> sortedMainChain = fordJohnsonSortList(newMainChain);
+	const list<int> initialSortedMainChain = sortedMainChain;
+
+	// long &previousJacobsthalNumber = state.previousJacobsthalNumber;
+	// long &i = state.i;
+
+	// while (true)
+	// {
+	// 	getInsertIndexFromJacobsthal(state, initialSortedMainChain);
+	// 	insertPending(initialSortedMainChain, sortedMainChain, pairs, state);
+	// 	if (state.isLastIteration)
+	// 		break;
+	// 	state.previousJacobsthalNumber = state.currentJacobsthalNumber;
+	// }
+	// _sorted = sortedMainChain;
+	cout << "Printing pairs" << endl;
+	printPairs(pairs);
+	printList(sortedMainChain);
+	return sortedMainChain;
+}
+
 void PmergeMe::ListSorter::sort()
 {
-	printList();
+	_sorted = fordJohnsonSortList(_input);
+	// printList(_input);
 }

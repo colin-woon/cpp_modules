@@ -91,7 +91,7 @@ private:
 		void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
 		void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
 		void makePairs(vector<int> &unsortedMainChain, vector<int> &newMainChain, vector<PairType> &pairs, bool &hasOrphan);
-		vector<int> fordJohnsonSortVector(vector<int> &winners);
+		vector<int> fordJohnsonSortVector(vector<int> &unsortedMainChain);
 
 	public:
 		VectorSorter();
@@ -118,8 +118,8 @@ private:
 		// bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
 		// void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
 		// void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
-		// void makePairs(vector<int> &unsortedMainChain, vector<int> &newMainChain, vector<PairType> &pairs, bool &hasOrphan);
-		// vector<int> fordJohnsonSortVector(vector<int> &winners);
+		void makePairs(list<int> &unsortedMainChain, list<int> &newMainChain, list<PairType> &pairs, bool &hasOrphan);
+		list<int> fordJohnsonSortList(list<int> &unsortedMainChain);
 
 	public:
 		ListSorter();
@@ -129,8 +129,8 @@ private:
 
 		void add(int val);
 		void sort();
-		// void printPairs(vector<PairType> &input) const;
-		void printList() const;
+		void printPairs(list<PairType> &input) const;
+		void printList(list<int> aList) const;
 	};
 
 	VectorSorter _vectorSorter;
