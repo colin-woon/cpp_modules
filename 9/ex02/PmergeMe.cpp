@@ -32,17 +32,15 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 PmergeMe::~PmergeMe() {}
 
 // Helper Functions
-static void printSortedVector(vector<int> &input)
+void PmergeMe::VectorSorter::printVector(vector<int> &input) const
 {
 	vector<int>::const_iterator it;
 
-	cout << "Sorted" << endl;
 	for (it = input.begin(); it != input.end(); it++)
 	{
 		cout << *it << " ";
 	}
 	cout << endl;
-	cout << "end" << endl;
 }
 
 static long getNextJacobsthal(long currentNum)
@@ -81,6 +79,40 @@ void PmergeMe::addToList(int val)
 void PmergeMe::sortList()
 {
 	_listSorter.sort();
+}
+
+void PmergeMe::printResults()
+{
+	cout << "--VECTOR--" << endl;
+	cout << "Before:	";
+	_vectorSorter.printVector(_vectorSorter._input);
+
+	cout << "After:	";
+	_vectorSorter.printVector(_vectorSorter._sorted);
+
+	cout << "--LIST--" << endl;
+	cout << "Before:	";
+	_listSorter.printList(_listSorter._input);
+
+	cout << "After:	";
+	_listSorter.printList(_listSorter._sorted);
+
+	cout << "Comparisons in std::vector: " << _vectorSorter.comparisons << endl;
+	cout << "Comparisons in std::list: " << _listSorter.comparisons << endl;
+	if (!isSorted(_vectorSorter._sorted.begin(), _vectorSorter._sorted.end()))
+		std::cout << "Vector is NOT sorted." << std::endl;
+	if (!isSorted(_listSorter._sorted.begin(), _listSorter._sorted.end()))
+		std::cout << "List is NOT sorted." << std::endl;
+
+	cout
+		<< "Time to process a range of " << _vectorSorter._input.size() << " with std::vector: "
+		<< std::fixed << std::setprecision(3)
+		<< _vectorSorter.timeTakenMS << " miliseconds" << endl;
+
+	cout
+		<< "Time to process a range of " << _listSorter._input.size() << " with std::list: "
+		<< std::fixed << std::setprecision(3)
+		<< _listSorter.timeTakenMS << " miliseconds" << endl;
 }
 
 // VectorSorter Class Implementation
@@ -240,10 +272,11 @@ vector<int> PmergeMe::VectorSorter::fordJohnsonSortVector(vector<int> &unsortedM
 
 void PmergeMe::VectorSorter::sort()
 {
+	clock_t startTime = clock();
 	_sorted = fordJohnsonSortVector(_input);
-	cout << "done" << endl;
-	cout << gComparisonCount << endl;
-	printSortedVector(_sorted);
+	clock_t endTime = clock();
+	this->timeTakenMS = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC * 1000;
+	this->comparisons = gComparisonCount;
 }
 
 // ListSorter Class Implementation
@@ -282,7 +315,6 @@ void PmergeMe::ListSorter::printList(list<int> aList) const
 {
 	list<int>::const_iterator it;
 
-	cout << "List" << endl;
 	for (it = aList.begin(); it != aList.end(); it++)
 	{
 		cout << *it << " ";
@@ -414,16 +446,17 @@ list<int> PmergeMe::ListSorter::fordJohnsonSortList(list<int> &unsortedMainChain
 		state.previousJacobsthalNumber = state.currentJacobsthalNumber;
 	}
 	_sorted = sortedMainChain;
-	cout << "Printing pairs" << endl;
-	printPairs(pairs);
-	printList(sortedMainChain);
+	// cout << "Printing pairs" << endl;
+	// printPairs(pairs);
+	// printList(sortedMainChain);
 	return sortedMainChain;
 }
 
 void PmergeMe::ListSorter::sort()
 {
+	clock_t startTime = clock();
 	_sorted = fordJohnsonSortList(_input);
-	cout << gComparisonCount << endl;
-	cout << "done" << endl;
-	printList(_sorted);
+	clock_t endTime = clock();
+	this->timeTakenMS = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC * 1000;
+	this->comparisons = gComparisonCount;
 }

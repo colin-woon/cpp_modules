@@ -5,3 +5,6 @@ echo
 
 echo
 ./PmergeMe 5 2 7 3 6 1 4
+
+# change -n 3000 to any number for more integers
+ ./PmergeMe `shuf -i 1-100000 -n 3000 | tr "\n" " "`

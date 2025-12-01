@@ -9,6 +9,8 @@
 #include <climits>
 #include <iostream>
 #include <iterator>
+#include <ctime>
+#include <iomanip>
 
 using std::advance;
 using std::cerr;
@@ -50,6 +52,33 @@ ForwardIterator custom_lower_bound(ForwardIterator first, ForwardIterator last, 
 	return first;
 }
 
+template <typename ForwardIterator>
+bool isSorted(ForwardIterator first, ForwardIterator last)
+{
+	// A range with 0 or 1 element is always considered sorted.
+	if (first == last)
+		return true;
+
+	// Start 'next' one step after 'first'
+	ForwardIterator next = first;
+	next++;
+
+	// Loop until 'next' reaches the end
+	while (next != last)
+	{
+		// Comparison check: If the current element is GREATER THAN the next, it's out of order.
+		// We use '<' for non-descending order (allowing duplicates: 1, 2, 2, 3).
+		if (*next < *first)
+			return false;
+
+		// Advance both iterators
+		first++;
+		next++;
+	}
+
+	return true;
+}
+
 typedef pair<int, int> PairType;
 
 class PmergeMe
@@ -82,9 +111,6 @@ private:
 	class VectorSorter
 	{
 	private:
-		vector<int> _input;
-		vector<int> _sorted;
-
 		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &initialSortedMainChain);
 		void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
 		bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
@@ -94,6 +120,11 @@ private:
 		vector<int> fordJohnsonSortVector(vector<int> &unsortedMainChain);
 
 	public:
+		vector<int> _input;
+		vector<int> _sorted;
+		int comparisons;
+		double timeTakenMS;
+
 		VectorSorter();
 		VectorSorter(const VectorSorter &other);
 		VectorSorter &operator=(const VectorSorter &other);
@@ -102,17 +133,13 @@ private:
 		void add(int val);
 		void sort();
 		void printPairs(vector<PairType> &input) const;
-		// const vector<int> &getResult() const;
-		// void printResult() const;
+		void printVector(vector<int> &input) const;
 	};
 
 	// ========== LIST HANDLER ==========
 	class ListSorter
 	{
 	private:
-		list<int> _input;
-		list<int> _sorted;
-
 		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const list<int> &initialSortedMainChain);
 		void insertLosersBackwardFromJacobsthal(const list<int> &initialSortedMainChain, list<PairType> &pairs, list<int> &sortedMainChain, long &winnerPos);
 		bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const list<int> initialSortedMainChain, list<PairType> &pairs, list<int> &sortedMainChain);
@@ -122,6 +149,11 @@ private:
 		list<int> fordJohnsonSortList(list<int> &unsortedMainChain);
 
 	public:
+		list<int> _input;
+		list<int> _sorted;
+		int comparisons;
+		double timeTakenMS;
+
 		ListSorter();
 		ListSorter(const ListSorter &other);
 		ListSorter &operator=(const ListSorter &other);
@@ -146,7 +178,7 @@ public:
 	void sortVector();
 	void addToList(int val);
 	void sortList();
-	void printResults() const;
+	void printResults();
 };
 
 #endif
