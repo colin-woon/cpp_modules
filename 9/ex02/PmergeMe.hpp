@@ -93,6 +93,11 @@ private:
 		vector<int> fordJohnsonSortVector(vector<int> &winners);
 
 	public:
+		VectorSorter();
+		VectorSorter(const VectorSorter &other);
+		VectorSorter &operator=(const VectorSorter &other);
+		~VectorSorter();
+
 		void add(int val);
 		void sort();
 		void printPairs(vector<PairType> &input) const;

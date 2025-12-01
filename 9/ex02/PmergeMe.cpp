@@ -64,14 +64,40 @@ static long getNextJacobsthal(long currentNum)
 	return (lastNum);
 }
 
-void PmergeMe::VectorSorter::add(int val)
-{
-	_input.push_back(val);
-}
-
 void PmergeMe::addToVector(int val)
 {
 	_vectorSorter.add(val);
+}
+
+void PmergeMe::sortVector()
+{
+	_vectorSorter.sort();
+}
+
+// VectorSorter Class Implementation
+PmergeMe::VectorSorter::VectorSorter() : _input(), _sorted() {}
+
+PmergeMe::VectorSorter::VectorSorter(const VectorSorter &other)
+{
+	this->_input = other._input;
+	this->_sorted = other._sorted;
+}
+
+PmergeMe::VectorSorter &PmergeMe::VectorSorter::operator=(const VectorSorter &other)
+{
+	if (this != &other)
+	{
+		this->_input = other._input;
+		this->_sorted = other._sorted;
+	}
+	return *this;
+}
+
+PmergeMe::VectorSorter::~VectorSorter() {}
+
+void PmergeMe::VectorSorter::add(int val)
+{
+	_input.push_back(val);
 }
 
 void PmergeMe::VectorSorter::printPairs(vector<PairType> &input) const
@@ -208,10 +234,7 @@ void PmergeMe::VectorSorter::sort()
 	_sorted = fordJohnsonSortVector(_input);
 	cout << "done" << endl;
 	cout << gComparisonCount << endl;
-	// printSortedVector(_sorted);
+	printSortedVector(_sorted);
 }
 
-void PmergeMe::sortVector()
-{
-	_vectorSorter.sort();
-}
+// ListSorter Class Implementation
