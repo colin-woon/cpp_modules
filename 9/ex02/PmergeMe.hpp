@@ -16,6 +16,7 @@ using std::cout;
 using std::distance;
 using std::endl;
 using std::iterator_traits;
+using std::list;
 using std::pair;
 using std::vector;
 
@@ -105,27 +106,35 @@ private:
 		// void printResult() const;
 	};
 
-	// // ========== LIST HANDLER ==========
-	// class ListSorter
-	// {
-	// private:
-	// 	list<int> _input;
-	// 	list<int> _sorted;
+	// ========== LIST HANDLER ==========
+	class ListSorter
+	{
+	private:
+		list<int> _input;
+		list<int> _sorted;
 
-	// 	list<int> fordJohnsonSort(list<int> &unsorted);
-	// 	void makePairs(list<int> &unsorted, list<int> &winners, vector<PairType> &pairs, bool &hasOrphan);
-	// 	void insertPending(const list<int> &initial, list<int> &sorted, vector<PairType> &pairs, JacobsthalState &state);
-	// 	void getInsertIndex(JacobsthalState &state, const list<int> &reference);
+		// void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
+		// void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
+		// bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
+		// void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
+		// void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
+		// void makePairs(vector<int> &unsortedMainChain, vector<int> &newMainChain, vector<PairType> &pairs, bool &hasOrphan);
+		// vector<int> fordJohnsonSortVector(vector<int> &winners);
 
-	// public:
-	// 	void add(int val);
-	// 	void sort();
-	// 	const list<int> &getResult() const;
-	// 	void printResult() const;
-	// };
+	public:
+		ListSorter();
+		ListSorter(const ListSorter &other);
+		ListSorter &operator=(const ListSorter &other);
+		~ListSorter();
+
+		void add(int val);
+		void sort();
+		// void printPairs(vector<PairType> &input) const;
+		void printList() const;
+	};
 
 	VectorSorter _vectorSorter;
-	// ListSorter _listSorter;
+	ListSorter _listSorter;
 
 public:
 	PmergeMe();

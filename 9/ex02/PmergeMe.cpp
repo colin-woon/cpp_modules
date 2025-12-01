@@ -73,6 +73,15 @@ void PmergeMe::sortVector()
 {
 	_vectorSorter.sort();
 }
+void PmergeMe::addToList(int val)
+{
+	_listSorter.add(val);
+}
+
+void PmergeMe::sortList()
+{
+	_listSorter.sort();
+}
 
 // VectorSorter Class Implementation
 PmergeMe::VectorSorter::VectorSorter() : _input(), _sorted() {}
@@ -238,3 +247,40 @@ void PmergeMe::VectorSorter::sort()
 }
 
 // ListSorter Class Implementation
+PmergeMe::ListSorter::ListSorter() : _input(), _sorted() {}
+
+PmergeMe::ListSorter::ListSorter(const ListSorter &other) : _input(other._input), _sorted(other._sorted) {}
+
+PmergeMe::ListSorter &PmergeMe::ListSorter::operator=(const ListSorter &other)
+{
+	if (this != &other)
+	{
+		this->_input = other._input;
+		this->_sorted = other._sorted;
+	}
+	return *this;
+}
+
+PmergeMe::ListSorter::~ListSorter() {}
+
+void PmergeMe::ListSorter::add(int val)
+{
+	this->_input.push_back(val);
+}
+
+void PmergeMe::ListSorter::printList() const
+{
+	list<int>::const_iterator it;
+
+	cout << "List" << endl;
+	for (it = _input.begin(); it != _input.end(); it++)
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
+}
+
+void PmergeMe::ListSorter::sort()
+{
+	printList();
+}
