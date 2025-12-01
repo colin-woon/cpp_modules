@@ -35,9 +35,11 @@ int main(int ac, char **av)
 			long val;
 			if (isInvalidInput(av[i], val))
 				return (1);
-			container.addToVector(val);
+			// container.addToVector(val);
+			container.addToList(val);
 		}
-		container.sortVector();
+		// container.sortVector();
+		container.sortList();
 
 		return (0);
 	}

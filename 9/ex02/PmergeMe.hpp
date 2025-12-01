@@ -85,7 +85,7 @@ private:
 		vector<int> _input;
 		vector<int> _sorted;
 
-		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
+		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &initialSortedMainChain);
 		void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
 		bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
 		void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
@@ -113,11 +113,11 @@ private:
 		list<int> _input;
 		list<int> _sorted;
 
-		// void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const vector<int> &referenceSortedMainChain);
-		// void insertLosersBackwardFromJacobsthal(const vector<int> &initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain, long &winnerPos);
-		// bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const vector<int> initialSortedMainChain, vector<PairType> &pairs, vector<int> &sortedMainChain);
-		// void insertFirstLoser(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs);
-		// void insertPending(const vector<int> initialSortedMainChain, vector<int> &sortedMainChain, vector<PairType> &pairs, JacobsthalRecursionState &state);
+		void getInsertIndexFromJacobsthal(JacobsthalRecursionState &state, const list<int> &initialSortedMainChain);
+		void insertLosersBackwardFromJacobsthal(const list<int> &initialSortedMainChain, list<PairType> &pairs, list<int> &sortedMainChain, long &winnerPos);
+		bool tryInsertOrphanLoser(JacobsthalRecursionState &state, const list<int> initialSortedMainChain, list<PairType> &pairs, list<int> &sortedMainChain);
+		void insertFirstLoser(const list<int> initialSortedMainChain, list<int> &sortedMainChain, list<PairType> &pairs);
+		void insertPending(const list<int> initialSortedMainChain, list<int> &sortedMainChain, list<PairType> &pairs, JacobsthalRecursionState &state);
 		void makePairs(list<int> &unsortedMainChain, list<int> &newMainChain, list<PairType> &pairs, bool &hasOrphan);
 		list<int> fordJohnsonSortList(list<int> &unsortedMainChain);
 
