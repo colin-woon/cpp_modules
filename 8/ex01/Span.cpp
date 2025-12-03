@@ -26,6 +26,9 @@ const char *Span::NoSpanFoundException::what() const throw()
 	return "No span found!";
 }
 
+// Why use .reserve()
+// Faster insertion since preallocated memory, no reallocation so no copying overhead
+// Contiguous memory allocated upfront, better cache performance
 Span::Span(unsigned int init) : _maxSize(init), _numbers()
 {
 	_numbers.reserve(init);

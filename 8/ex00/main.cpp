@@ -1,4 +1,5 @@
 #include "easyfind.hpp"
+#include <deque>
 
 void print_line()
 {
@@ -128,6 +129,20 @@ int main()
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	print_line();
+
+	// Creates deque with 10 elements, all value 2
+	std::deque<int> queueContainer(10, 2);
+	try
+	{
+		std::cout << "Searching for 2 and 5: " << std::endl;
+		std::deque<int>::iterator it = easyfind(queueContainer, 2);
+		std::cout << "Found value: " << *it << std::endl;
+		it = easyfind(queueContainer, 5);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
 
 	return 0;
 }

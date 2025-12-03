@@ -25,11 +25,11 @@ int main()
 	std::cout << sp.longestSpan() << std::endl;
 
 	std::vector<int> values;
-	size_t testSize = 10000000;
-	for (int i = 0; i < testSize; ++i)
+	size_t testSize = 100;
+	for (size_t i = 0; i < testSize; ++i)
 		values.push_back(i);
 
-	// values.push_back(1); // here shows why _maxSize is needed, next try block will fail
+	// values.push_back(1); // here shows why _maxSize is needed, next try block will fail, "Filled Numbers" wont print
 	Span spam(testSize);
 	try
 	{

@@ -18,14 +18,18 @@
 // WHY: so the iterator will be based on its respective type (vector, deque, list)
 
 // container_type is a type alias defined inside std::stack
+// since container_type is not known until runtime, as specified by <T>, we need to use typename, so the compiler knows it is a type, in non-template code, since the type is known, we don't need typename
 
 // https://cplusplus.com/reference/stack/stack/
 // template <class T, class Container = deque<T>> class stack;
-// default container is deque, if you do std::stack<int, std::list<int> >, container becomes vector
+// default container is deque, if you do std::stack<int, std::list<int> >, container becomes list
 
 // iterator : read / write access
 // const_iterator : read - only access
 
+// to see where this->c came from, its defined in stl_stack.h, just Ctrl+click on "stack" to find this line
+//    protected:
+// _Sequence c;
 template <typename T>
 class MutantStack : public std::stack<T>
 {
