@@ -41,7 +41,7 @@ public:
 
 	void calculate(char op);
 	void pushToStack(char input);
-	const int getResult() const;
+	int getResult() const;
 	bool isAllowedOperator(char input) const;
 };
 

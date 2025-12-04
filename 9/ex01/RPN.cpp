@@ -68,7 +68,7 @@ void RPN::pushToStack(char input)
 	_stack.push(digit);
 }
 
-const int RPN::getResult() const
+int RPN::getResult() const
 {
 	return _stack.top();
 }

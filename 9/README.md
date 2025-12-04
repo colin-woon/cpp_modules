@@ -35,7 +35,9 @@ YYYY-MM-DD | value
 	- + 3 x 4 5 represents 3 + (4 x 5)
 	- x + 3 4 5 represents (3 + 4) x 5
 	- more memory load because when operator comes in, still needs to wait for operands then only execute, once operands are ready, needs to remember what operator was waiting (need complex recursion, might cause stack overflow)
-	-
+- handled zero division
+- prevented multiple digits numbers, only 0-9 allowed, no >=10
+
 ## ex02
 - used Vector & List
 - FordJohnson Algorithm
