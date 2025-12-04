@@ -1,7 +1,8 @@
 CXX = c++
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS = -I. -std=c++98 -Wpedantic $(FSAN)
+CFLAGS = -I. -std=c++98 -Wpedantic $(WFLAGS) $(DEBUG)
 FSAN = -g3 -fsanitize=address,leak
+DEBUG = -g3 -fstandalone-debug
 RM = rm -rf
 
 NAME = btc

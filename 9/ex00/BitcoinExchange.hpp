@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <ctime>
+#include <cstring>
 #include <exception>
 
 using std::cerr;

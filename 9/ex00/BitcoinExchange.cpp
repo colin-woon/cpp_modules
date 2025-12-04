@@ -83,6 +83,7 @@ bool BitcoinExchange::isInvalidDate(const string &date)
 	int day = 0;
 
 	// 2. Convert to integers using stringstream, >> is operator overloaded to convert lhs to rhs type
+	// >> operator will return stream itself, false if failed, ! inverts that, so it'll be true that isInvalidDate
 	stringstream ss_y(year_str);
 	if (!(ss_y >> year))
 		return true;
@@ -101,10 +102,11 @@ bool BitcoinExchange::isInvalidDate(const string &date)
 
 	// 3. Setup the struct tm (The Traditional Way)
 	// Initialize to all zeros
-	// Years since 1900
+	// Years since 1900 (a design choice back in the 70s-80s as memory was expensive, only few kb-mbs of RAM, so they store the offset, eg year 1999 = 99 years from 1900, avoids the y2k problem)
 	// Months since January (0-11)
 	// Day of the month (1-31)
-	std::tm time_struct = {0};
+	std::tm time_struct;
+	std::memset(&time_struct, 0, sizeof(time_struct));
 	time_struct.tm_year = year - 1900;
 	time_struct.tm_mon = month - 1;
 	time_struct.tm_mday = day;
@@ -151,6 +153,7 @@ bool BitcoinExchange::isValidValue(const string &value)
 	return true;
 }
 
+// doesnt get concerned about file extension, just treats everything as raw bytes
 void BitcoinExchange::extractFile(const string &fileName, const char &delimeter, map<string, string> &map)
 {
 	ifstream file(fileName.c_str());
@@ -197,12 +200,14 @@ void BitcoinExchange::getAllDetails() const
 	}
 }
 
+// lower_bound returns the value immediately after the inputDate if not found, if completely not in the range, will return last iterator
 string BitcoinExchange::getPrice(string &inputDate) const
 {
 	constMapIterator priceActionIt = _priceAction.find(inputDate);
 	if (priceActionIt == _priceAction.end())
 	{
 		priceActionIt = _priceAction.lower_bound(inputDate);
+		// if inputDate is earlier than earliest date in map, must throw exception so later decrement wont segfault
 		if (priceActionIt == _priceAction.begin())
 		{
 			if (priceActionIt->first != inputDate)
@@ -252,7 +257,7 @@ void BitcoinExchange::calculateExchangeRate(const string &inputFile, const strin
 	if (!inputFileStream.is_open())
 		throw FileOpenException();
 
-	getline(inputFileStream, line);
+	getline(inputFileStream, line); // to skip the header line (date | value)
 
 	while (getline(inputFileStream, line))
 	{
