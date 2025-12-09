@@ -1,6 +1,6 @@
 CXX = c++
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS = -I. -std=c++98 -Wpedantic $(DEBUG)
+CFLAGS = -I. -std=c++98 -Wpedantic $(WFLAGS) $(DEBUG)
 DEBUG = -g3 -fstandalone-debug
 FSAN = -g3 -fsanitize=address,leak
 RM = rm -rf

@@ -39,8 +39,17 @@ YYYY-MM-DD | value
 - prevented multiple digits numbers, only 0-9 allowed, no >=10
 
 ## ex02
+- FordJohnson Algorithm (Merge-Insertion Sort)
+- Jacobsthal Numbers (Formula: 2(prevNumber) + currentNumber - 1, 3, 5, 11, 21)
+- A recursion of grouping elements into pairs and sorting them, then taking the winners and continue, afterwards insert the losers into the sorted winners according to jacobsthal sequence backwards, we use the jacobsthal number as index to refer to the initial sorted winners to find their loser pair to be inserted. (eg: 1, 3, 2, 5, 4, 11, 10, 9 ,8 , 7, 6)
+- If an orphan is found, it will be inserted based on jacobsthal sequence first also, typically when the losers container is larger than the winners container in our implementation because the orphan is paired with -1 as a default. (first->-1, second->\<ORPHAN\>)
+- the minimum comparisons refer to the worst case scenario, whats the maximum amount of comparisons required, so you might take a few tries to find the worst case scenario for the same set of numbers
+- actual implementation uses a Directed Graph, where the ordering relations is known, but we are only using vectors and lists so we cant really replicate it without implementation overhead
+- Vectors vs List
+- O(1) random access for vector if you have the index, O(n) for list as its pointers and not contiguous memory
+- slower insertion in the middle of a vector, but faster for list
+
+### DECISIONS
 - used Vector & List
-- FordJohnson Algorithm
-- Explain Jacobsthal Numbers
-- Explain comparison counters, and why organizing data doesnt count towards the comparison counter
-- Explain how random access differs, memory issues
+- used a global variable to store the comparison count to compare with actual fordJohnson based [on pg 186(198/792) of The Art of Computer Programming](https://seriouscomputerist.atariverse.com/media/pdf/book/Art%20of%20Computer%20Programming%20-%20Volume%203%20(Sorting%20&%20Searching).pdf) (only related to sorting data itself, organizing does not count)
+- using clock to calculate time instead of time_t because clock calculates CPU time in microseconds, while time_t is more for real world time, it includes waiting time.

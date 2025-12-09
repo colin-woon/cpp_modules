@@ -29,39 +29,6 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	return *this;
 }
 
-PmergeMe::~PmergeMe() {}
-
-// Helper Functions
-void PmergeMe::VectorSorter::printVector(vector<int> &input) const
-{
-	vector<int>::const_iterator it;
-
-	for (it = input.begin(); it != input.end(); it++)
-	{
-		cout << *it << " ";
-	}
-	cout << endl;
-}
-
-static long getNextJacobsthal(long currentNum)
-{
-	static long lastNum = 1;
-	if (currentNum == 0)
-	{
-		lastNum = 1;
-		return 1;
-	}
-	else if (currentNum == 1)
-	{
-		lastNum = 1;
-		return 3;
-	}
-
-	lastNum = 2 * lastNum + currentNum;
-
-	return (lastNum);
-}
-
 void PmergeMe::addToVector(int val)
 {
 	_vectorSorter.add(val);
@@ -115,6 +82,28 @@ void PmergeMe::printResults()
 		<< _listSorter.timeTakenMS << " miliseconds" << endl;
 }
 
+PmergeMe::~PmergeMe() {}
+
+// Helper Functions
+static long getNextJacobsthal(long currentNum)
+{
+	static long lastNum = 1;
+	if (currentNum == 0)
+	{
+		lastNum = 1;
+		return 1;
+	}
+	else if (currentNum == 1)
+	{
+		lastNum = 1;
+		return 3;
+	}
+
+	lastNum = 2 * lastNum + currentNum;
+
+	return (lastNum);
+}
+
 // VectorSorter Class Implementation
 PmergeMe::VectorSorter::VectorSorter() : _input(), _sorted() {}
 
@@ -139,6 +128,17 @@ PmergeMe::VectorSorter::~VectorSorter() {}
 void PmergeMe::VectorSorter::add(int val)
 {
 	_input.push_back(val);
+}
+
+void PmergeMe::VectorSorter::printVector(vector<int> &input) const
+{
+	vector<int>::const_iterator it;
+
+	for (it = input.begin(); it != input.end(); it++)
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
 }
 
 void PmergeMe::VectorSorter::printPairs(vector<PairType> &input) const
@@ -252,9 +252,6 @@ vector<int> PmergeMe::VectorSorter::fordJohnsonSortVector(vector<int> &unsortedM
 
 	vector<int> sortedMainChain = fordJohnsonSortVector(newMainChain);
 	const vector<int> initialSortedMainChain = sortedMainChain;
-
-	long &previousJacobsthalNumber = state.previousJacobsthalNumber;
-	long &i = state.i;
 
 	while (true)
 	{
@@ -433,9 +430,6 @@ list<int> PmergeMe::ListSorter::fordJohnsonSortList(list<int> &unsortedMainChain
 
 	list<int> sortedMainChain = fordJohnsonSortList(newMainChain);
 	const list<int> initialSortedMainChain = sortedMainChain;
-
-	long &previousJacobsthalNumber = state.previousJacobsthalNumber;
-	long &i = state.i;
 
 	while (true)
 	{
