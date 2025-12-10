@@ -89,7 +89,11 @@ private:
 	// say the operator() was overloaded to "target + val"
 	// FindByKey a(12);
 	// int result = a(40);
-	// result will be equal to 42
+	// result will be equal to 52
+	// Some facts about the operator() overload in C++98:
+	// - must be overloaded as a non-static member function
+	// - if not overloaded, doesnt do anything, will even be compiler error if you try to write that syntax
+	// - replaced by lambdas in C++11
 	struct FindByKey
 	{
 		int target;
